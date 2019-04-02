@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.539
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "indranu7", "indranu7\indranu7.csproj", "{BED4E261-313A-4151-AB21-B5078F795076}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BED4E261-313A-4151-AB21-B5078F795076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BED4E261-313A-4151-AB21-B5078F795076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BED4E261-313A-4151-AB21-B5078F795076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BED4E261-313A-4151-AB21-B5078F795076}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {72D43608-9762-4119-8278-C30684BA5515}
+	EndGlobalSection
+EndGlobal
