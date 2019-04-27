@@ -6,20 +6,21 @@ import ReceiptForm from "../../Templates/ReceiptForm/ReceiptForm";
 
 class ReceiptPage extends Component {
   state = {
-    loading: false
+    loading: true,
+    fields: []
   };
 
   componentDidMount = () => {
-    axios.get("https://localhost:44356/api/values").then(Response => {
-      this.setState({ test: Response.data, loading: false });
+    axios.get("https://localhost:44356/api/receipt").then(Response => {
+      this.setState({ fields: Response.data, loading: false });
     });
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading, fields } = this.state;
     return (
       <div className="ReceiptPage">
-        {loading ? <Loader /> : <ReceiptForm />}
+        {loading ? <Loader /> : <ReceiptForm fields={fields} />}
       </div>
     );
   }

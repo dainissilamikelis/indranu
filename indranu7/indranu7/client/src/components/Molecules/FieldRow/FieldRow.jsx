@@ -5,45 +5,44 @@ import "./FieldRow.scss";
 class FieldRow extends Component {
   state = { disabled: true };
 
+  componentDidMount = () => {
+    const { disabled } = this.props;
+    this.setState({ disabled });
+  };
+
+  componentWillReceiveProps = () => {
+    const { disabled } = this.props;
+    this.setState({ disabled });
+  };
+
   handleEnable = () => {
     const { disabled } = this.state;
     this.setState({ disabled: !disabled });
   };
   render() {
-    const {
-      number,
-      price,
-      area,
-      inhabitants,
-      tenant,
-      phone,
-      email,
-      fromDate,
-      toDate,
-      hasParking,
-      hasStorage,
-      showInReceipt
-    } = this.props;
+    const { fields, title, editable } = this.props;
     const { disabled } = this.state;
+    console.log(fields);
     return (
       <>
-        <div className=""> dzivoklis 1 </div>
+        <div> {title} </div>
         <FormGroup row className="form-group">
-          <FieldBox label="Menēša maksa" inputType="text" disabled={disabled} />
-          <FieldBox label="Laukums" inputType="text" disabled={disabled} />
-          <FieldBox label="Iedzīvotāji" inputType="text" disabled={disabled} />
-          <FieldBox label="Īrnieks" inputType="text" disabled={disabled} />
-          <FieldBox label="Telefons" inputType="text" disabled={disabled} />
-          <FieldBox label="Epasts" inputType="text" disabled={disabled} />
-          <FieldBox label="No" inputType="text" disabled={disabled} />
-          <FieldBox label="Līdz" inputType="text" disabled={disabled} />
-          <FieldBox label="Ir stāvieta" inputType="text" disabled={disabled} />
-          <FieldBox label="Ir noliktava" inputType="text" disabled={disabled} />
-          <FieldBox label="Rādīt rēķinā" inputType="text" disabled={disabled} />
-          <FormControlLabel
-            control={<Switch onChange={this.handleEnable} />}
-            label="Rediģēt"
-          />
+          {fields.map(field => (
+            <FieldBox
+              key={field.label}
+              label={field.label}
+              inputType={field.inputType}
+              value={field.value}
+              unit={field.unit}
+              disabled={disabled}
+            />
+          ))}
+          {editable ? (
+            <FormControlLabel
+              control={<Switch onChange={this.handleEnable} />}
+              label="Rediģēt"
+            />
+          ) : null}
         </FormGroup>
       </>
     );

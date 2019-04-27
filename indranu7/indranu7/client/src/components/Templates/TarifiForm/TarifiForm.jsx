@@ -26,7 +26,7 @@ class TarifiForm extends Component {
 
   render() {
     const { winter, disabled } = this.state;
-    console.log(winter, disabled);
+    const { fields } = this.props;
     return (
       <>
         <form>
@@ -45,72 +45,16 @@ class TarifiForm extends Component {
               label="Ziema"
             />
           </div>
-          <FieldBox
-            label={"Siltumenerģija"}
-            inputType={"text"}
-            unit={"EUR/Mwh"}
-            disabled={disabled}
-          />
-          <FieldBox
-            label={"Apkure ziemā"}
-            inputType={"text"}
-            unit={"EUR/m2"}
-            disabled={disabled || winter}
-          />
-          <FieldBox
-            label={"Karstais ūdens ziemā"}
-            inputType={"text"}
-            unit={"EUR/m3"}
-            disabled={disabled || winter}
-          />
-          <FieldBox
-            label={"Karstais ūdens vasarā"}
-            inputType={"text"}
-            unit={"EUR/m3"}
-            disabled={disabled || !winter}
-          />
-          <FieldBox
-            label={"Cirkulācijas zudumi"}
-            inputType={"text"}
-            unit={"EUR/dz"}
-            disabled={disabled}
-          />
-          <FieldBox
-            label={"Ūdensapgāde"}
-            inputType={"text"}
-            unit={"EUR/dz"}
-            disabled={disabled}
-          />
-          <FieldBox
-            label={"Ūdensvada zudumi sistēmā"}
-            inputType={"text"}
-            unit={"EUR/m3"}
-            disabled={disabled}
-          />
-          <FieldBox
-            label={"Elektroenerģija"}
-            inputType={"text"}
-            unit={"EUR/dz"}
-            disabled={disabled}
-          />
-          <FieldBox
-            label={"E obligata komponente"}
-            inputType={"text"}
-            unit={"EUR/dz"}
-            disabled={disabled}
-          />
-          <FieldBox
-            label={"Piegādes pakalpojumi"}
-            inputType={"text"}
-            unit={"EUR/dz"}
-            disabled={disabled}
-          />
-          <FieldBox
-            label={"Menēša maksa"}
-            inputType={"text"}
-            unit={"EUR/dz"}
-            disabled={disabled}
-          />
+          {fields.map(field => (
+            <FieldBox
+              key={field.label}
+              label={field.label}
+              inputType={field.type}
+              unit={field.unit}
+              value={field.value}
+              disable={disabled}
+            />
+          ))}
         </form>
         <FormControl>
           <Button disabled={disabled} type="submit">

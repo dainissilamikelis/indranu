@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using indranu7.models;
+using indranu7.buisinessLogic;
 
 namespace indranu7.Controllers
 {
@@ -12,11 +14,11 @@ namespace indranu7.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        // GET api/values
+        // GET api/metadata
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<FieldModel[]> Get()
         {
-            return new string[] { "value1", "value2" };
+            return formatMetadata.GetTarifFields();
         }
 
         // GET api/values/5

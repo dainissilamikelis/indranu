@@ -23,17 +23,20 @@ class AssetForm extends Component {
 
   render() {
     const { disabled } = this.state;
-    console.log(disabled);
+    const { assets } = this.props;
+    console.log("aseti", assets);
     return (
       <>
         <form>
           <h4> Dzīvokļi </h4>
-          <FieldRow />
-          <FieldRow />
-          <FieldRow />
-          <FieldRow />
-          <FieldRow />
-          <FieldRow />
+          {assets.map(asset => (
+            <FieldRow
+              fields={asset.fields}
+              title={asset.label}
+              editable
+              disabled
+            />
+          ))}
         </form>
         <FormControl>
           <Button disabled={disabled} type="submit">

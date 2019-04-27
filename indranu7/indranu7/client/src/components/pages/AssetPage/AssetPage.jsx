@@ -6,19 +6,22 @@ import AssetForm from "../../Templates/AssetForm/AssetForm";
 
 class AssetPage extends Component {
   state = {
-    loading: false
+    loading: true,
+    assets: []
   };
 
   componentDidMount = () => {
-    axios.get("https://localhost:44356/api/values").then(Response => {
-      this.setState({ test: Response.data, loading: false });
+    axios.get("https://localhost:44356/api/asset").then(Response => {
+      this.setState({ assets: Response.data, loading: false });
     });
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading, assets } = this.state;
     return (
-      <div className="AssetPage">{loading ? <Loader /> : <AssetForm />}</div>
+      <div className="AssetPage">
+        {loading ? <Loader /> : <AssetForm assets={assets} />}
+      </div>
     );
   }
 }
