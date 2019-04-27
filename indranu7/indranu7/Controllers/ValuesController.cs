@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace indranu7.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("AllowMyOrigin")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
