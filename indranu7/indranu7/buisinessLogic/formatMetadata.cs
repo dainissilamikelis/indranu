@@ -11,14 +11,79 @@ namespace indranu7.buisinessLogic
 
         public static FieldModel[] GetReceiptFields()
         {
-            var receiptFields = new FieldModel[1];
-            var electroEnergy = new FieldModel();
-            electroEnergy.Label = "Elektroenerģija";
-            electroEnergy.Type = "text";
-            electroEnergy.Unit = "Kwh";
-            electroEnergy.Value = "47.99";
+            var today = DateTime.Today;
+            var receiptFields = new FieldModel[9];
+            var motnhField = new FieldModel();
+            motnhField.Label = "Mēnesis";
+            motnhField.Type = "text";
+            motnhField.Unit = "";
+            motnhField.Value = new DateTime(today.Year, today.Month, 1).ToString();
 
-            receiptFields[0] = electroEnergy;
+            var eletricityField = new FieldModel();
+            eletricityField.Label = "Elektroenerģija";
+            eletricityField.Type = "decimal";
+            eletricityField.Unit = "kWh";
+            eletricityField.Value = "";
+
+            var eletricityCost = new FieldModel();
+            eletricityCost.Label = "Elektrības izmaksa";
+            eletricityCost.Type = "decimal";
+            eletricityCost.Unit = "EUR";
+            eletricityCost.Value = "";
+
+            var coldWater = new FieldModel();
+            coldWater.Label = "Aukstais ūdens";
+            coldWater.Type = "decimal";
+            coldWater.Unit = "m3";
+            coldWater.Value = "";
+
+            var coldWaterCost = new FieldModel();
+            coldWaterCost.Label = "Aukstā ūdens izmaksa";
+            coldWaterCost.Type = "decimal";
+            coldWaterCost.Unit = "EUR";
+            coldWaterCost.Value = "";
+
+            var heat = new FieldModel();
+            heat.Label = "Apkure";
+            heat.Type = "decimal";
+            heat.Unit = "MWh";
+            heat.Value = "";
+
+            var heatCost = new FieldModel();
+            heatCost.Label = "Apkures izmaksa";
+            heatCost.Type = "decimal";
+            heatCost.Unit = "EUR";
+            heatCost.Value = "";
+
+            var hotWater = new FieldModel();
+            hotWater.Label = "Siltais ūdens";
+            hotWater.Type = "decimal";
+            hotWater.Unit = "m3";
+            hotWater.Value = "";
+
+            var wasteCost = new FieldModel();
+            wasteCost.Label = "Atkritumu izmaksa";
+            wasteCost.Type = "decimal";
+            wasteCost.Unit = "EUR";
+            wasteCost.Value = ""; // autofill from prveious
+
+            var taxCost = new FieldModel();
+            taxCost.Label = "Nodoklis";
+            taxCost.Type = "decimal";
+            taxCost.Unit = "EUR";
+            taxCost.Value = "";
+
+
+
+            receiptFields[0] = motnhField;
+            receiptFields[1] = eletricityField;
+            receiptFields[2] = coldWater;
+            receiptFields[3] = coldWaterCost;
+            receiptFields[4] = heat;
+            receiptFields[5] = heatCost;
+            receiptFields[6] = hotWater;
+            receiptFields[7] = wasteCost;
+            receiptFields[8] = taxCost;
 
             return receiptFields;
         }

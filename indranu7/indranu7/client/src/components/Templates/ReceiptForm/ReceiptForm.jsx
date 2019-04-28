@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import FieldBox from "../../Molecules/FieldBox/FieldBox";
-import Loader from '../../atoms/Loader/Loader';
+import Loader from "../../atoms/Loader/Loader";
 import "./ReceiptForm.scss";
 import {
   Button,
@@ -15,7 +15,7 @@ class ReceiptForm extends Component {
     receipts: [],
     fields: [],
     loading: false,
-    hidden: true,
+    hidden: true
   };
 
   componentDidMount = () => {
@@ -24,12 +24,16 @@ class ReceiptForm extends Component {
   };
 
   handleGetReceipts = async data => {
-    this.setState({ loading:true })
+    this.setState({ loading: true });
     axios.post("http://localhost:61466/api/values", {}).then(response => {
       debugger;
       console.log(response);
-      this.setState({ loading:false, hidden:false })
-    })
+      this.setState({ loading: false, hidden: false });
+    });
+  };
+
+  handleValueChange = event => {
+    return event.target.value;
   };
 
   render() {
@@ -58,10 +62,12 @@ class ReceiptForm extends Component {
             Aprēķināt rēķinus
           </Button>
         </FormControl>
-        
-        {loading ? <Loader /> :(
+
+        {loading ? (
+          <Loader />
+        ) : (
           <div className="receipt-page" hidden={hidden}>
-              <TabForm receipts={receipts} />             
+            <TabForm receipts={receipts} />
           </div>
         )}
       </div>
