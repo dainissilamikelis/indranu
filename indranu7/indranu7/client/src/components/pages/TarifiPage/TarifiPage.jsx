@@ -11,7 +11,7 @@ class TarifiPage extends Component {
   };
 
   componentDidMount = () => {
-    axios.get("https://localhost:44356/api/tarif").then(Response => {
+    axios.get("http://localhost:61466/api/tarif").then(Response => {
       this.setState({ fields: Response.data, loading: false });
     });
   };

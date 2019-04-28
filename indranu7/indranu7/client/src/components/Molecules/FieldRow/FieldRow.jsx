@@ -22,7 +22,6 @@ class FieldRow extends Component {
   render() {
     const { fields, title, editable } = this.props;
     const { disabled } = this.state;
-    console.log(fields);
     return (
       <>
         <div> {title} </div>

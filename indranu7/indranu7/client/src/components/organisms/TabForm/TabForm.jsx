@@ -9,7 +9,7 @@ class TabForm extends React.Component {
     value: 0
   };
 
-  handleChange = (event, value) => {
+  handleChange = ( value) => {
     this.setState({ value });
   };
 

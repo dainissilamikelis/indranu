@@ -11,7 +11,7 @@ class ReceiptPage extends Component {
   };
 
   componentDidMount = () => {
-    axios.get("https://localhost:44356/api/receipt").then(Response => {
+    axios.get("http://localhost:61466/api/receipt").then(Response => {
       this.setState({ fields: Response.data, loading: false });
     });
   };

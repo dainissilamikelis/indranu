@@ -30,8 +30,12 @@ namespace indranu7.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        [EnableCors("AllowMyOrigin")]
+        public dynamic Post([FromBody] dynamic value)
         {
+            Console.Write(value);
+            string test = "a";
+            return "test";
         }
 
         // PUT api/values/5

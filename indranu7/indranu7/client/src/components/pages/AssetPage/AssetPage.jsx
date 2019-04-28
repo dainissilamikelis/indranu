@@ -11,7 +11,7 @@ class AssetPage extends Component {
   };
 
   componentDidMount = () => {
-    axios.get("https://localhost:44356/api/asset").then(Response => {
+    axios.get("http://localhost:61466/api/asset").then(Response => {
       this.setState({ assets: Response.data, loading: false });
     });
   };

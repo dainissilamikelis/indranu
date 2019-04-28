@@ -18,5 +18,12 @@ namespace indranu7.Controllers
         {
             return formatMetadata.GetReceiptFields();
         }
+
+        [HttpPost]
+        public void Post([FromBody] string value)
+        {
+
+        }
+
     }
 }

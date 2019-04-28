@@ -9,7 +9,7 @@ class HistoryPage extends Component {
   };
 
   componentDidMount = () => {
-    axios.get("https://localhost:44356/api/values").then(Response => {
+    axios.get("http://localhost:61466/api/values").then(Response => {
       this.setState({ test: Response.data, loading: false });
     });
   };
