@@ -9,6 +9,7 @@ import {
   Switch
 } from "@material-ui/core";
 import TabForm from "../../organisms/TabForm/TabForm";
+import { getInputValues, formatReceipts } from '../../../utils/utils';
 import axios from "axios";
 class ReceiptForm extends Component {
   state = {
@@ -24,11 +25,11 @@ class ReceiptForm extends Component {
   };
 
   handleGetReceipts = async data => {
+    const { fields } = this.state;
     this.setState({ loading: true });
-    axios.post("http://localhost:61466/api/values", {}).then(response => {
-      debugger;
-      console.log(response);
-      this.setState({ loading: false, hidden: false });
+    const inputValues = getInputValues(fields);
+    axios.post("http://localhost:61466/api/receipt",  inputValues).then(response => {
+      this.setState({ loading: false, hidden: false, receipts: formatReceipts(response.data) });
     });
   };
 
@@ -54,6 +55,7 @@ class ReceiptForm extends Component {
               inputType={field.type}
               unit={field.unit}
               value={field.value}
+              setRef={field.ref}
             />
           ))}
         </form>

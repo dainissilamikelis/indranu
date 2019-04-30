@@ -3,6 +3,7 @@ import axios from "axios";
 import Loader from "../../atoms/Loader/Loader";
 import "./ReceiptPage.scss";
 import ReceiptForm from "../../Templates/ReceiptForm/ReceiptForm";
+import { formatFields } from "../../../utils/utils";
 
 class ReceiptPage extends Component {
   state = {
@@ -12,7 +13,7 @@ class ReceiptPage extends Component {
 
   componentDidMount = () => {
     axios.get("http://localhost:61466/api/receipt").then(Response => {
-      this.setState({ fields: Response.data, loading: false });
+      this.setState({ fields: formatFields(Response.data), loading: false });
     });
   };
 

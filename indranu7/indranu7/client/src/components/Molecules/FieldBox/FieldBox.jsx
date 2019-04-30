@@ -17,7 +17,7 @@ class FieldBox extends Component {
 
   render() {
     const { value } = this.state;
-    const { disabled, label, inputType, unit } = this.props;
+    const { disabled, label, inputType, unit, setRef } = this.props;
 
     return (
       <TextField
@@ -26,6 +26,7 @@ class FieldBox extends Component {
         className={`input-text ${disabled ? "readOnly" : "test"}`}
         type={inputType}
         value={value}
+        ref={setRef}
         onChange={this.handleChange}
         label={label}
         margin="normal"

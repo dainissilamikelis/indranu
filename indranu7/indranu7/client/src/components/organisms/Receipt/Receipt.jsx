@@ -2,6 +2,7 @@ import React from "react";
 import "./Receipt.scss";
 import { TextField } from "@material-ui/core";
 import FieldRow from "../../Molecules/FieldRow/FieldRow";
+import { cpus } from "os";
 
 function evaluateVisibility(current, value) {
   if (current === value) return false;
@@ -59,11 +60,10 @@ const fields3 = [
 ];
 
 const Receipt = ({ receipt, current }) => {
+  console.log(receipt);
   return (
     <form hidden={evaluateVisibility(current, receipt.value)}>
-      <FieldRow fields={fields1} title="Maksājuma saņēmējs" />
-      <FieldRow fields={fields2} title="Maksātājs" disabled />
-      <FieldRow fields={fields3} title="Rēķina informācija" disabled />
+      <FieldRow fields={receipt.fields} title="Maksājuma saņēmējs" />
       <TextField
         style={{ marginRight: "20px", minWidth: "550px" }}
         defaultValue="11.32"

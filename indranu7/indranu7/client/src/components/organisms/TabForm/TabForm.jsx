@@ -6,7 +6,7 @@ import Receipt from "../Receipt/Receipt";
 
 class TabForm extends React.Component {
   state = {
-    value: 0
+    value: 1
   };
 
   handleChange = ( value) => {

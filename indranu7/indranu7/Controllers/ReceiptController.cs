@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using indranu7.models;
 using indranu7.buisinessLogic;
@@ -20,10 +22,12 @@ namespace indranu7.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] string value)
+        [EnableCors("AllowMyOrigin")]
+        public ReceiptModel[] Post([FromBody] FieldModel[] inputFields)
         {
-
+            return calculations.GetReceipts(inputFields);
         }
+
 
     }
 }
