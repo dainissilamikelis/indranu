@@ -66,8 +66,8 @@ namespace indranu7.buisinessLogic
             var utils = new utils();
             foreach (FieldModel field in inputFields)
             {
-                if (field.Type != "month") 
-                fieldMap.Add(field.Name, utils.formatValueToDecimal(field.Value));
+                if (field.Type != "month")
+                    fieldMap.Add(field.Name, utils.formatValueToDecimal(field.Value));
             }
 
             decimal TotalUsedColdWaterAmount = GetUsedColdWaterAmount_TOTAL(fieldMap["ColdWaterAmount"], ColdWaterLoss);
@@ -91,7 +91,7 @@ namespace indranu7.buisinessLogic
             decimal WastePerTenantTarif = GetTarif(fieldMap["WasteCost"], totalTenantAmout);
             decimal TaxTarifPerSqoureMeter = GetTarif(fieldMap["TaxCost"], totalApartmentArea);
 
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 var receipt = new ReceiptModel();
                 receipt.Label = counter.ToString() + " Dzivoklis";
