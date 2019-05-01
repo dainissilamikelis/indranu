@@ -18,7 +18,7 @@ namespace indranu7.buisinessLogic
 
         public static FieldModel[] GetReceiptFields()
         {
-            var receiptFields = new FieldModel[10];
+            var receiptFields = new FieldModel[11];
             var utils = new utils();
             var today = DateTime.Today;
 

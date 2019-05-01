@@ -56,24 +56,6 @@ class ReceiptForm extends Component {
       <div className="receiptForm">
         <form onSubmit={this.handleGetReceipts}>
           <div>
-            <SwipeableDrawer
-              anchor="right"
-              open={this.state.right}
-              onClose={this.toggleDrawer("right", false)}
-              onOpen={this.toggleDrawer("right", true)}
-            >
-              <div
-                tabIndex={0}
-                role="button"
-                onClick={this.toggleDrawer("right", false)}
-                onKeyDown={this.toggleDrawer("right", false)}
-              >
-                
-              </div>
-            </SwipeableDrawer>
-            <Button onClick={this.toggleDrawer("right", true)}>
-              Open Left
-            </Button>
             <FormControlLabel
               control={<Switch value="checkedA" />}
               label="Ziema"
