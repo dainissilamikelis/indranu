@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import FieldBox from "../../Molecules/FieldBox/FieldBox";
 import Loader from "../../atoms/Loader/Loader";
 import "./ReceiptForm.scss";
@@ -9,7 +10,7 @@ import {
   Switch
 } from "@material-ui/core";
 import TabForm from "../../organisms/TabForm/TabForm";
-import { getInputValues, formatReceipts } from '../../../utils/utils';
+import { getInputValues, formatReceipts } from "../../../utils/utils";
 import axios from "axios";
 class ReceiptForm extends Component {
   state = {
@@ -17,6 +18,12 @@ class ReceiptForm extends Component {
     fields: [],
     loading: false,
     hidden: true
+  };
+
+  toggleDrawer = (side, open) => () => {
+    this.setState({
+      [side]: open
+    });
   };
 
   componentDidMount = () => {
@@ -28,9 +35,15 @@ class ReceiptForm extends Component {
     const { fields } = this.state;
     this.setState({ loading: true });
     const inputValues = getInputValues(fields);
-    axios.post("http://localhost:61466/api/receipt",  inputValues).then(response => {
-      this.setState({ loading: false, hidden: false, receipts: formatReceipts(response.data) });
-    });
+    axios
+      .post("http://localhost:61466/api/receipt", inputValues)
+      .then(response => {
+        this.setState({
+          loading: false,
+          hidden: false,
+          receipts: formatReceipts(response.data)
+        });
+      });
   };
 
   handleValueChange = event => {
@@ -43,6 +56,24 @@ class ReceiptForm extends Component {
       <div className="receiptForm">
         <form onSubmit={this.handleGetReceipts}>
           <div>
+            <SwipeableDrawer
+              anchor="right"
+              open={this.state.right}
+              onClose={this.toggleDrawer("right", false)}
+              onOpen={this.toggleDrawer("right", true)}
+            >
+              <div
+                tabIndex={0}
+                role="button"
+                onClick={this.toggleDrawer("right", false)}
+                onKeyDown={this.toggleDrawer("right", false)}
+              >
+                
+              </div>
+            </SwipeableDrawer>
+            <Button onClick={this.toggleDrawer("right", true)}>
+              Open Left
+            </Button>
             <FormControlLabel
               control={<Switch value="checkedA" />}
               label="Ziema"

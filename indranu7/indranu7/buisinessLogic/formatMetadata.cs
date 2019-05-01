@@ -8,93 +8,32 @@ namespace indranu7.buisinessLogic
 {
     public static class formatMetadata
     {
+        enum Types
+        {
+            month,
+            number,
+            text,
+            textArea
+        }
 
         public static FieldModel[] GetReceiptFields()
         {
-            var today = DateTime.Today;
             var receiptFields = new FieldModel[10];
-            var monthField = new FieldModel();
-            monthField.Label = "Mēnesis";
-            monthField.Type = "month";
-            monthField.Unit = "";
-            monthField.Value = new DateTime(today.Year, today.Month, 1).ToString();
-            monthField.Name = "Month";
+            var utils = new utils();
+            var today = DateTime.Today;
 
-            var eletricityField = new FieldModel();
-            eletricityField.Label = "Elektroenerģija";
-            eletricityField.Type = "number";
-            eletricityField.Unit = "kWh";
-            eletricityField.Value = "";
-            eletricityField.Name = "EletricityAmount";
-
-            var eletricityCost = new FieldModel();
-            eletricityCost.Label = "Elektrības izmaksa";
-            eletricityCost.Type = "number";
-            eletricityCost.Unit = "EUR";
-            eletricityCost.Value = "";
-            eletricityCost.Name = "EletricityCost";
-
-            var coldWater = new FieldModel();
-            coldWater.Label = "Aukstais ūdens";
-            coldWater.Type = "number";
-            coldWater.Unit = "m3";
-            coldWater.Value = "";
-            coldWater.Name = "ColdWaterAmount";
-
-            var coldWaterCost = new FieldModel();
-            coldWaterCost.Label = "Aukstā ūdens izmaksa";
-            coldWaterCost.Type = "number";
-            coldWaterCost.Unit = "EUR";
-            coldWaterCost.Value = "";
-            coldWaterCost.Name = "ColdWaterCost";
-
-            var heat = new FieldModel();
-            heat.Label = "Apkure";
-            heat.Type = "number";
-            heat.Unit = "MWh";
-            heat.Value = "";
-            heat.Name = "HeatAmount";
-
-            var heatCost = new FieldModel();
-            heatCost.Label = "Apkures izmaksa";
-            heatCost.Type = "number";
-            heatCost.Unit = "EUR";
-            heatCost.Value = "";
-            heatCost.Name = "HeatCost";
-
-            var hotWater = new FieldModel();
-            hotWater.Label = "Siltais ūdens";
-            hotWater.Type = "number";
-            hotWater.Unit = "m3";
-            hotWater.Value = "";
-            hotWater.Name = "HotWaterAmount";
-
-            var wasteCost = new FieldModel();
-            wasteCost.Label = "Atkritumu izmaksa";
-            wasteCost.Type = "number";
-            wasteCost.Unit = "EUR";
-            wasteCost.Value = ""; // autofill from prveious
-            wasteCost.Name = "WasteCost";
-
-            var taxCost = new FieldModel();
-            taxCost.Label = "Nodoklis";
-            taxCost.Type = "number";
-            taxCost.Unit = "EUR";
-            taxCost.Value = "";
-            taxCost.Name = "TaxCost";
-
-
-
-            receiptFields[0] = monthField;
-            receiptFields[1] = eletricityField;
-            receiptFields[2] = eletricityCost;
-            receiptFields[3] = coldWater;
-            receiptFields[4] = coldWaterCost;
-            receiptFields[5] = heat;
-            receiptFields[6] = heatCost;
-            receiptFields[7] = hotWater;
-            receiptFields[8] = wasteCost;
-            receiptFields[9] = taxCost;
+            Console.WriteLine(Types.month.ToString());
+            receiptFields[0] = utils.crateField("Mēnesis", "kWh", "Month", "Jan-2018", "month");
+            receiptFields[1] = utils.crateField("Elektroenerģija", "kWh", "EletricityAmount");
+            receiptFields[2] = utils.crateField("Summa", "EUR", "EletricityCost");
+            receiptFields[3] = utils.crateField("Aukstais ūdens", "m3", "ColdWaterAmount");
+            receiptFields[4] = utils.crateField("Summa", "EUR", "ColdWaterCost");
+            receiptFields[5] = utils.crateField("Apkure", "MWh", "HeatAmount");
+            receiptFields[6] = utils.crateField("Maksa", "EUR", "HeatCost");
+            receiptFields[7] = utils.crateField("Siltais ūdens", "m3", "HotWaterAmount");
+            receiptFields[8] = utils.crateField("Atkritumu izmaksa", "EUR", "WasteCost");
+            receiptFields[9] = utils.crateField("Nodoklis", "Eur", "TaxCost");
+            receiptFields[10] = utils.crateField("Dz.1", "īrnieki", "1Tenats");
 
             return receiptFields;
         }
