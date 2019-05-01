@@ -46,20 +46,12 @@ namespace indranu7.buisinessLogic
         {
             return Amout * Tarif;
         }
-
-        //decimal eletricityAmount,
-        //    decimal electricityCost,
-        //    decimal coldWaterAmount,
-        //    decimal coldWaterCost,
-        //    decimal heatAmount,
-        //    decimal heatCost,
-        //    decimal hotWaterAmount,
-        //    decimal wasteCost,
-        //    decimal taxCost,
-        //    bool winter,
-        //    int[] tenantsInAparments,  // map with key and values
-        //    DateTime month
-
+        
+        private static decimal roundMultiply(decimal value1, decimal value2)
+        {
+            var value = value1 * value2;
+            return Math.Round(value, 2);
+        }
 
 
         public static ReceiptModel[] GetReceipts(FieldModel[] inputFields)
@@ -109,23 +101,31 @@ namespace indranu7.buisinessLogic
 
                 decimal tenantsInAparment = 3.00M;
                 decimal aparmentArea = 46.7M;
-                decimal ColdWaterUsed = ColdWaterVolumePerTenantTarif * tenantsInAparment;
-                decimal ColWaterLoss = WaterLossTarifPerAppartmentTarif;
-                decimal WaterHeatingApartment = WaterHeatingPerTenantTarif * tenantsInAparment;
-                decimal WaterHeatingLoss = WaterHeatingLossPerApparmentTarif;
-                decimal Heating = HeatingPerSqoureMeterTarif * aparmentArea;
-                decimal lighting = LightingPerTenantTarif * tenantsInAparment;
-                decimal upkeepEletricity = UpkeepEletricityTarif;
+                decimal ColdWaterUsed = roundMultiply(ColdWaterVolumePerTenantTarif, tenantsInAparment);
+                decimal ColWaterLoss = Math.Round(WaterLossTarifPerAppartmentTarif,2);
+                decimal WaterHeatingApartment = roundMultiply(WaterHeatingPerTenantTarif , tenantsInAparment);
+                decimal WaterHeatingLoss = Math.Round(WaterHeatingLossPerApparmentTarif,2);
+                decimal Heating = roundMultiply(HeatingPerSqoureMeterTarif, aparmentArea);
+                decimal lighting = roundMultiply(LightingPerTenantTarif, tenantsInAparment);
+                decimal upkeepEletricity = Math.Round(UpkeepEletricityTarif);
 
-                decimal waste = WastePerTenantTarif * tenantsInAparment;
-                decimal tax = TaxTarifPerSqoureMeter * aparmentArea;
-                decimal ColdWaterUsedSum = ColdWaterUsed * WaterTarif;
-                decimal ColdWaterLossSum = ColWaterLoss * WaterTarif;
-                decimal WaterHeatingSum = WaterHeating * HeatTarif;
-                decimal WaterHeatingLossSum = WaterHeatingLoss * HeatTarif;
-                decimal HeatingSum = Heating * HeatTarif;
-                decimal lightingSum = lighting * EletricityTarif;
-                decimal upkeepEletricitySum = upkeepEletricity * EletricityTarif;
+                decimal waste = roundMultiply(WastePerTenantTarif,tenantsInAparment);
+                decimal tax = roundMultiply(TaxTarifPerSqoureMeter, aparmentArea);
+                decimal ColdWaterUsedSum = roundMultiply(ColdWaterUsed, WaterTarif);
+                decimal ColdWaterLossSum = roundMultiply(ColWaterLoss, WaterTarif);
+                decimal WaterHeatingSum = roundMultiply(WaterHeating, HeatTarif);
+                decimal WaterHeatingLossSum = roundMultiply(WaterHeatingLoss, HeatTarif);
+                decimal HeatingSum = roundMultiply(Heating, HeatTarif);
+                decimal lightingSum = roundMultiply(lighting, EletricityTarif);
+                decimal upkeepEletricitySum = roundMultiply(upkeepEletricity, EletricityTarif);
+
+
+                //foreach(FieldModel field in receipt.Fields)
+                //{
+                //    var newField = new FieldModel();
+
+                //}
+
 
                 var Field1 = new FieldModel();
                 var Field2 = new FieldModel();
@@ -144,93 +144,93 @@ namespace indranu7.buisinessLogic
                 var Field15 = new FieldModel();
 
 
-                Field1.Label = "1";
+                Field1.Label = "Cold water used";
                 Field1.Name = "1";
-                Field1.Unit = "test";
+                Field1.Unit = "m3";
                 Field1.Type = "decimal";
                 Field1.Value = ColdWaterUsed.ToString();
 
-                Field2.Label = "2";
+                Field2.Label = "Cold water cost";
                 Field2.Name = "2";
-                Field2.Unit = "test";
+                Field2.Unit = "EUR";
                 Field2.Type = "decimal";
                 Field2.Value = ColdWaterUsedSum.ToString();
 
-                Field3.Label = "3";
+                Field3.Label = "Cold water loss";
                 Field3.Name = "3";
-                Field3.Unit = "test";
+                Field3.Unit = "m3";
                 Field3.Type = "decimal";
                 Field3.Value = ColdWaterLoss.ToString();
 
-                Field4.Label = "4";
+                Field4.Label = "Cold water loss cost";
                 Field4.Name = "4";
-                Field4.Unit = "test";
+                Field4.Unit = "eur";
                 Field4.Type = "decimal";
                 Field4.Value = ColdWaterLossSum.ToString();
 
-                Field5.Label = "5";
+                Field5.Label = "Water heating";
                 Field5.Name = "5";
-                Field5.Unit = "test";
+                Field5.Unit = "kWh";
                 Field5.Type = "decimal";
                 Field5.Value = WaterHeatingApartment.ToString();
 
-                Field6.Label = "6";
+                Field6.Label = "Water heatign cost";
                 Field6.Name = "6";
-                Field6.Unit = "test";
+                Field6.Unit = "EUR";
                 Field6.Type = "decimal";
                 Field6.Value = WaterHeatingSum.ToString();
 
-                Field7.Label = "7";
+                Field7.Label = "Water heating loss";
                 Field7.Name = "7";
-                Field7.Unit = "test";
+                Field7.Unit = "kWh";
                 Field7.Type = "decimal";
                 Field7.Value = WaterHeatingLoss.ToString();
 
-                Field8.Label = "8";
+                Field8.Label = "Heating";
                 Field8.Name = "8";
-                Field8.Unit = "test";
+                Field8.Unit = "kWh";
                 Field8.Type = "decimal";
                 Field8.Value = Heating.ToString();
 
-                Field9.Label = "9";
+                Field9.Label = "Heating cost";
                 Field9.Name = "9";
-                Field9.Unit = "test";
+                Field9.Unit = "EUR";
                 Field9.Type = "decimal";
                 Field9.Value = HeatingSum.ToString();
 
-                Field10.Label = "10";
+                Field10.Label = "Lighting";
                 Field10.Name = "10";
-                Field10.Unit = "test";
+                Field10.Unit = "kWh";
                 Field10.Type = "decimal";
                 Field10.Value = lighting.ToString();
 
-                Field11.Label = "11";
+                Field11.Label = "Ligthing cost";
                 Field11.Name = "11";
-                Field11.Unit = "test";
+                Field11.Unit = "EUR";
                 Field11.Type = "decimal";
                 Field11.Value = lightingSum.ToString();
 
-                Field12.Label = "12";
+                Field12.Label = "Upkeep eletrcity";
                 Field12.Name = "12";
-                Field12.Unit = "test";
+                Field12.Unit = "kWh";
                 Field12.Type = "decimal";
                 Field12.Value = upkeepEletricity.ToString();
 
-                Field13.Label = "13";
+                Field13.Label = "Upkeep eletricity cost";
                 Field13.Name = "13";
-                Field13.Unit = "test";
+                Field13.Unit = "EUR";
                 Field13.Type = "decimal";
                 Field13.Value = upkeepEletricitySum.ToString();
 
-                Field14.Label = "14";
+                Field14.Label = "waste";
                 Field14.Name = "14";
-                Field14.Unit = "test";
+                Field14.Unit = "EUR";
                 Field14.Type = "decimal";
                 Field14.Value = waste.ToString();
 
-                Field15.Label = "15";
+                Field15.Label = "tax";
                 Field15.Name = "15";
-                Field15.Unit = "test";
+                Field15.Unit = "EUR";
                 Field15.Type = "decimal";
                 Field15.Value = tax.ToString();
 

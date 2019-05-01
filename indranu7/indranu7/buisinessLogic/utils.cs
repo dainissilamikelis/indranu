@@ -14,7 +14,7 @@ namespace indranu7.buisinessLogic
             if (value != string.Empty)
             {
                 var decimalValue = Convert.ToDecimal(value);
-                return decimalValue;
+                return Math.Round(decimalValue, 2);
             }
 
             return defaulValue;
