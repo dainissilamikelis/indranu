@@ -14,7 +14,7 @@ namespace indranu7.Controllers
     public class AssetController : ControllerBase
     {
         [HttpGet]
-        public ActionResult<ReceiptModel[]> GetAssetFields()
+        public ActionResult<AssetModel[]> GetAssetFields()
         {
             return formatMetadata.GetAssets();
         }

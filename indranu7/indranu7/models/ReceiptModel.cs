@@ -9,8 +9,8 @@ namespace indranu7.models
     {
         public string Label { get; set; }
         public int Value { get; set; }
-        public FieldModel[] Fields { get; set; }
-        public Person Payer { get; set; }
-        public Person Receiver { get; set; }
+        public AmoutCostForm Receipt { get; set; }
+        public FieldModel[] Payer { get; set; }
+        public FieldModel[] Receiver { get; set; }
     }
 }

@@ -18,7 +18,6 @@ class FieldBox extends Component {
   render() {
     const { value } = this.state;
     const { disabled, label, inputType, unit, setRef } = this.props;
-
     return (
       <TextField
         style={{ marginRight: "20px" }}

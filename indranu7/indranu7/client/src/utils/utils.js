@@ -1,11 +1,13 @@
 import React from 'react';
 
-export function formatFields(fields) {
-    fields.forEach(field => {
+export function formatReceiptForm(receiptForm) {
+    receiptForm.formFields.forEach(field => {
         field.ref= React.createRef();
     })
-
-    return fields;
+    receiptForm.apartmentFields.forEach(field => {
+        field.ref= React.createRef();
+    })
+    return receiptForm;
 }
 
 function getFieldValue(field) {

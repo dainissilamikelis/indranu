@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import FieldBox from "../../Molecules/FieldBox/FieldBox";
 import Loader from "../../atoms/Loader/Loader";
 import "./ReceiptForm.scss";
@@ -15,29 +14,31 @@ import axios from "axios";
 class ReceiptForm extends Component {
   state = {
     receipts: [],
-    fields: [],
+    formFields: [],
+    apartmentFields: [],
     loading: false,
-    hidden: true
-  };
-
-  toggleDrawer = (side, open) => () => {
-    this.setState({
-      [side]: open
-    });
+    hidden: true,
+    showApartments: false,
   };
 
   componentDidMount = () => {
-    const { fields } = this.props;
-    this.setState({ fields });
+    const { formFields, apartmentFields } = this.props;
+    this.setState({ formFields, apartmentFields });
   };
 
+  hanldeShowApartmentFields = () => {
+    const {showApartments } = this.state;
+    this.setState({showApartments: !showApartments});
+  }
+
   handleGetReceipts = async data => {
-    const { fields } = this.state;
+    const { formFields, apartmentFields } = this.state;
     this.setState({ loading: true });
-    const inputValues = getInputValues(fields);
+    const inputValues = [...getInputValues(formFields), ...getInputValues(apartmentFields)];
     axios
-      .post("http://localhost:61466/api/receipt", inputValues)
+      .post("http://localhost:61466/api/receipt/getReciepts", inputValues)
       .then(response => {
+        console.log(response.data);
         this.setState({
           loading: false,
           hidden: false,
@@ -51,7 +52,7 @@ class ReceiptForm extends Component {
   };
 
   render() {
-    const { fields, receipts, loading, hidden } = this.state;
+    const { formFields, apartmentFields, receipts, loading, hidden, showApartments } = this.state;
     return (
       <div className="receiptForm">
         <form onSubmit={this.handleGetReceipts}>
@@ -60,8 +61,25 @@ class ReceiptForm extends Component {
               control={<Switch value="checkedA" />}
               label="Ziema"
             />
+            <FormControlLabel
+              onChange={this.hanldeShowApartmentFields}
+              control={<Switch value="checkedA" />}
+              label="Dzīvokļi"
+            />
+          <div hidden={!showApartments}>
+          {apartmentFields.map(field => (
+            <FieldBox
+              key={field.label}
+              label={field.label}
+              inputType={field.type}
+              unit={field.unit}
+              value={field.value}
+              setRef={field.ref} 
+            />
+          ))}
           </div>
-          {fields.map(field => (
+          </div>
+          {formFields.map(field => (
             <FieldBox
               key={field.label}
               label={field.label}
