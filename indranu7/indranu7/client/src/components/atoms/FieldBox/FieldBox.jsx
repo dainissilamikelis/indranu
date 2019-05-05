@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./FieldBox.scss";
-import { TextField, Checkbox, FormControlLabel } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
 class FieldBox extends Component {
@@ -17,12 +17,15 @@ class FieldBox extends Component {
 
   render() {
     const { value } = this.state;
-    const { disabled, label, inputType, unit, setRef } = this.props;
+    const { disabled, label, inputType, setRef, sizeType } = this.props;
+    let { unit } = this.props;
+    if (!unit) unit = "";
+    
     return (
       <TextField
         style={{ marginRight: "20px" }}
-        defaultValue="11.32"
-        className={`input-text ${disabled ? "readOnly" : "test"}`}
+        fullWidth
+        className={`input-text ${sizeType ? sizeType : "input-text--default"} ${disabled ? "readOnly" : ""}`}
         type={inputType}
         value={value}
         ref={setRef}
@@ -30,7 +33,6 @@ class FieldBox extends Component {
         label={label}
         margin="normal"
         disabled={disabled}
-        variant={disabled ? "filled" : "outlined"}
         InputProps={{
           endAdornment: <InputAdornment position="start">{unit}</InputAdornment>
         }}

@@ -37,6 +37,16 @@ namespace indranu7.buisinessLogic
             return ElectricityAmout - GetUpkeepEletricity_TOTAL(Power_CONSTANT);
         }
 
+        private static decimal GetDebt(int apartmentId)
+        {
+            return 0.10M;
+        }
+
+        private static decimal GetRent(int apartmentId)
+        {
+            return 300.00M;
+        }
+
         public static Dictionary<string ,decimal> GetConstants()
         {
             var constants = new Dictionary<string, decimal>();
@@ -52,16 +62,16 @@ namespace indranu7.buisinessLogic
             return constants;
         }
 
-        public static Dictionary<string, decimal> GetTarifs(FieldModel[] inputFields)
+        public static Dictionary<string, dynamic> GetTarifs(FieldModel[] inputFields)
         {
-            var fieldMap = new Dictionary<string, decimal>();
-            var tarifMap = new Dictionary<string, decimal>();
+            var fieldMap = new Dictionary<string, dynamic>();
+            var tarifMap = new Dictionary<string, dynamic>();
             var utils = new utils();
 
             foreach (FieldModel field in inputFields)
             {
-                if (field.Type != "text")
-                    fieldMap.Add(field.Name, utils.formatValueToDecimal(field.Value));
+                if (field.Type != "text") fieldMap.Add(field.Name, utils.formatValueToDecimal(field.Value));
+                else fieldMap.Add(field.Name, field.Value);
             }
 
 
@@ -90,6 +100,8 @@ namespace indranu7.buisinessLogic
             decimal UpkeepEletricityTarif = utils.GetTarif(UpkeekElectricity, apparmentCount);
             decimal WastePerTenantTarif = utils.GetTarif(fieldMap["WasteCost"], totalTenantAmout);
             decimal TaxTarifPerSqoureMeter = utils.GetTarif(fieldMap["TaxCost"], totalApartmentArea);
+            string AdditionalInformation = fieldMap["ExtraInfo"];
+            string Revision = fieldMap["Revision"];
 
             tarifMap.Add("ColdWater", ColdWaterVolumePerTenantTarif);
             tarifMap.Add("WaterLoss", WaterLossPerAppartmentTarif);
@@ -103,12 +115,14 @@ namespace indranu7.buisinessLogic
             tarifMap.Add("Water", WastePerTenantTarif);
             tarifMap.Add("Heat", HeatingPerSqoureMeterTarif);
             tarifMap.Add("Eletricity", EletricityTarif);
+            tarifMap.Add("ExtraInfo", AdditionalInformation);
+            tarifMap.Add("Version", Revision);
 
             return tarifMap;
         }
 
-        public static AmoutCostForm GetReceipt(
-            Dictionary<string, decimal> tarifs, 
+        public static AmountCostForm GetReceipt(
+            Dictionary<string, dynamic> tarifs, 
             decimal apartmentArea, 
             decimal tenantsInAparment
             )
@@ -117,10 +131,10 @@ namespace indranu7.buisinessLogic
             decimal coldWaterLoss = GetConstants()["ColdWaterLoss"];
             decimal waterHeating = GetConstants()["WaterHeating"];
 
-            var receipt = new AmoutCostForm();
-            var receiptFields = new FieldModel[7];
-            var receiptCostFields = new FieldModel[9];
-            var additionalInformation = new FieldModel[1];
+            var receipt = new AmountCostForm();
+            var receiptFields = new FieldModel[5];
+            var receiptCostFields = new CostFieldModel[7];
+            var additionalInformation = new FieldModel[2];
             var endInformation = new FieldModel[2];
             var utils = new utils();
 
@@ -136,6 +150,7 @@ namespace indranu7.buisinessLogic
             decimal waterTarif = tarifs["Water"];
             decimal heatTarif = tarifs["Heat"];
             decimal eletricityTarif = tarifs["Eletricity"];
+            string extraInfo = tarifs["ExtraInfo"];
 
             decimal ColdWaterUsed = utils.roundMultiply(coldWaterTarif, tenantsInAparment);
             decimal ColWaterLoss = Math.Round(waterLossTarif, 2);
@@ -155,27 +170,24 @@ namespace indranu7.buisinessLogic
             decimal lightingSum = utils.roundMultiply(lighting, eletricityTarif);
             decimal upkeepEletricitySum = utils.roundMultiply(upkeepEletricity, eletricityTarif);
 
-            decimal sum = tax + ColdWaterUsedSum + ColdWaterLossSum + WaterHeatingSum + WaterHeatingLossSum + HeatingSum + lightingSum + upkeepEletricitySum;
+            decimal sum = tax + ColdWaterUsedSum + ColdWaterLossSum + WaterHeatingSum + WaterHeatingLossSum + HeatingSum + lightingSum + upkeepEletricitySum + GetRent(1) + GetDebt(1);
 
-            receiptFields[0] = utils.createField("Aukstais ūdens un kanalizācija","m3", "ColdWaterUsed", ColdWaterUsed.ToString());
-            receiptFields[1] = utils.createField("Aukstā ūdens zudumi", "m3", "ColdWaterLoss", coldWaterLoss.ToString());
-            receiptFields[2] = utils.createField("Siltais ūdens", "kWh", "WaterHeating", WaterHeatingApartment.ToString());
-            receiptFields[3] = utils.createField("Siltā ūdens zudumi", "kWh", "WaterHeatingLoss", WaterHeatingLoss.ToString());
-            receiptFields[4] = utils.createField("Sildīšana", "kWh", "Heating", Heating.ToString());
-            receiptFields[5] = utils.createField("Apgaismojums", "kWh", "Lighting", lighting.ToString());
-            receiptFields[6] = utils.createField("Koplietošanas elektroapgāde", "kWh", "UpkeepEletricity", upkeepEletricity.ToString());
+            receiptCostFields[0] = utils.createCostField("Aukstais ūdends un kanalizācija", "m3", "ColdWater", ColdWaterUsed, ColdWaterUsedSum);
+            receiptCostFields[1] = utils.createCostField("Ausktā ūdens un zudumi", "m3", "ColdWaterLoss", coldWaterLoss, ColdWaterLossSum);
+            receiptCostFields[2] = utils.createCostField("Siltais ūdens", "kWh", "WaterHeating", WaterHeatingApartment, WaterHeatingSum);
+            receiptCostFields[3] = utils.createCostField("Siltā ūdens zudumi", "kWh", "WaterHeatingLoss", WaterHeatingLoss, WaterHeatingLossSum);
+            receiptCostFields[4] = utils.createCostField("Sildīšana", "kWh", "Heating", Heating, HeatingSum);
+            receiptCostFields[5] = utils.createCostField("Apgaismojums", "kWh", "Lighting", lighting, lightingSum);
+            receiptCostFields[6] = utils.createCostField("Koplietošanas elektroapgāde", "kWh", "UpkeepEletricity", upkeepEletricity, upkeepEletricitySum);
 
-            receiptCostFields[0] = utils.createField("Summa", "EUR", "ColdWaterCost", ColdWaterUsedSum.ToString());
-            receiptCostFields[1] = utils.createField("Summa", "EUR", "ColdWaterLossCost", ColdWaterLossSum.ToString());
-            receiptCostFields[2] = utils.createField("Summa", "EUR", "WaterHeatingCost", WaterHeatingSum.ToString());
-            receiptCostFields[3] = utils.createField("Summa", "EUR", "HeatingCost", HeatingSum.ToString().ToString());
-            receiptCostFields[4] = utils.createField("Summa", "EUR", "LightingCost", lightingSum.ToString());
-            receiptCostFields[5] = utils.createField("Summa", "EUR", "UpkeepEletricity", upkeepEletricitySum.ToString());
-            receiptCostFields[6] = utils.createField("Atkritumi un šķirošana", "EUR", "Waste", waste.ToString());
-            receiptCostFields[7] = utils.createField("Īpašuma nodoklis", "EUR", "Tax", tax.ToString());
-            receiptCostFields[8] = utils.createField("Īre", "EUR", "Rent", "300");
+            receiptFields[0] = utils.createField("Atkritumi un šķirošana", "EUR", "Waste", waste.ToString());
+            receiptFields[1] = utils.createField("Īpašuma nodoklis", "EUR", "Tax", tax.ToString());
+            receiptFields[2] = utils.createField("Īre", "EUR", "Rent", "300");
+            receiptFields[3] = utils.createField("Parāds", "EUR", "Debpt", GetDebt(1).ToString());
+            receiptFields[4] = utils.createField("Atlaide", "EUR", "Discount");
 
-            additionalInformation[0] = utils.createField("Papildinformācija", "", "ExtraInformation", "", "textArea");
+            additionalInformation[0] = utils.createField("Papildinformācija", "", "ExtraInformation", extraInfo , "textArea");
+            additionalInformation[1] = utils.createField("Papildinformācija dzīvoklim specifiska", "", "ExtraInfoApartment", "", "Text");
 
             endInformation[0] = utils.createField("Kopsumma", "EUR", "Sum", sum.ToString());
             endInformation[1] = utils.createField("Kopsumma vārdos", "", "TextSum", utils.createTextSum(sum.ToString()), "text");

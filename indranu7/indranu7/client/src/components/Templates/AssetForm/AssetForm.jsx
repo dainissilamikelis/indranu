@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import FieldBox from "../../Molecules/FieldBox/FieldBox";
+import FieldBox from '../../atoms/FieldBox/FieldBox';
 import "./AssetForm.scss";
 import {
   Button,

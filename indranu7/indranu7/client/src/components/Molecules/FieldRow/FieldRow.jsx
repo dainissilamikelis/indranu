@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import FieldBox from "../FieldBox/FieldBox";
+import FieldBox from "../../atoms/FieldBox/FieldBox";
 import { FormControlLabel, Switch, FormGroup } from "@material-ui/core";
 import "./FieldRow.scss";
 class FieldRow extends Component {
@@ -20,7 +20,7 @@ class FieldRow extends Component {
     this.setState({ disabled: !disabled });
   };
   render() {
-    const { fields, title, editable } = this.props;
+    const { fields, title, editable, sizeType } = this.props;
     const { disabled } = this.state; 
     return (
       <>
@@ -28,12 +28,14 @@ class FieldRow extends Component {
         <FormGroup row className="form-group">
           {fields.map(field => (
             <FieldBox
-              key={field.label}
+              key={field.name}
               label={field.label}
               inputType={field.inputType}
               value={field.value}
               unit={field.unit}
               disabled={disabled}
+              sizeType={sizeType}
+              setRef={field.ref}
             />
           ))}
           {editable ? (

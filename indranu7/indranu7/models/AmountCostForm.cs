@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace indranu7.models
 {
-    public class AmoutCostForm
+    public class AmountCostForm
     {
+        public CostFieldModel[] CostFields { get; set; }
         public FieldModel[] Fields { get; set; }
-        public FieldModel[] CostFields { get; set; }
         public FieldModel[] AdditionalInformation { get; set; }
         public FieldModel[] ClosingInformation { get; set; }
     }

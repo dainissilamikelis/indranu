@@ -27,17 +27,27 @@ namespace indranu7.Controllers
         [HttpPost]
         [EnableCors("AllowMyOrigin")]
         [ActionName("getReciepts")]
-        public ReceiptModel[] Post([FromBody] FieldModel[] inputFields)
+        public ReceiptModel[] Post([FromBody] ReceiptFormModel inputFields)
         {
             return formatMetadata.GetReceipts(inputFields);
         }
 
-        [HttpGet]
+        [HttpPost]
         [ActionName("getPDF")]
-        public IActionResult GetPDFs()
+        public IActionResult GetPDFs([FromBody] ReceiptModel[] receipts)
         {
             var pdf = new pdfCreator();
-            var doc = pdf.createPDF();
+            var doc = pdf.createPDF(receipts);
+            var stream = new FileStream("C:\\Users\\dsilamikelis\\Desktop\\test\\test.pdf", FileMode.Open);
+            return new FileStreamResult(stream, "application/pdf");
+        }
+
+        [HttpPost]
+        [ActionName("RecalculateReceipt")]
+        public IActionResult Recalculate([FromBody] ReceiptModel[] receipts, string id)
+        {
+            var pdf = new pdfCreator();
+            var doc = pdf.createPDF(receipts);
             var stream = new FileStream("C:\\Users\\dsilamikelis\\Desktop\\test\\test.pdf", FileMode.Open);
             return new FileStreamResult(stream, "application/pdf");
         }

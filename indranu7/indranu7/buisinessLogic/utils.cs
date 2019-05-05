@@ -9,8 +9,10 @@ namespace indranu7.buisinessLogic
     public class utils
     {
 
-        public string getMonthName(int monthId)
+        public string getMonthName()
         {
+            var today = DateTime.Now;
+            var  monthId = today.AddMonths(-1).Month;
             switch (monthId)
             {
                 case 1:
@@ -39,6 +41,13 @@ namespace indranu7.buisinessLogic
                     return "Decembirs";
                   
             }
+        }
+
+        public string getYear()
+        {
+            var today = DateTime.Now;
+
+            return today.Year.ToString();
         }
 
         public decimal GetTarif(decimal Amout, decimal Cost)
@@ -83,6 +92,8 @@ namespace indranu7.buisinessLogic
 
         public FieldModel createField(string Label, string Unit, string Name, string Value = "", string Type = "number")
         {
+            if (Value == String.Empty) Value = "123"; 
+
             var newField = new FieldModel();
             newField.Label = Label;
             newField.Type = Type;
@@ -91,6 +102,37 @@ namespace indranu7.buisinessLogic
             newField.Value = Value;
 
             return newField;
+        }
+
+        public CostFieldModel createCostField(string Label, string AmountUnit, string Name, decimal ValueAmount = 0.00M , decimal CostValue = 0.00M)
+        {
+            var newCostField = new CostFieldModel();
+            string costLabel = "Maksa";
+            string amountLabel = Label;
+            string costName = Name + "Cost";
+            string amountName = Name + "Amount";
+            newCostField.CostField = createField(costLabel, "EUR", costName);
+            newCostField.AmountField = createField(Label, AmountUnit, amountName);
+
+            return newCostField;
+        }
+
+        public AssetModel createTenantFormField(string ApartmentNo, decimal TenantCount, decimal Discount = 0.00M, string AdditonalInformation = "",  decimal Dept = 0.00M)
+        {
+            var newTenant = new AssetModel();
+            var fields = new FieldModel[3];
+            string TenantCountName = ApartmentNo + "TenantCount";
+            string TenantDiscauntName = ApartmentNo + "TenantDiscount";
+            string TenantExtraInforName = ApartmentNo + "TenantExtraInfo";
+            newTenant.Label = ApartmentNo;
+            var TenantCountField = createField("Īrnieku skaits", "", TenantCountName, TenantCount.ToString());
+            var Discountfield = createField("Atlaide", "EUR", TenantDiscauntName, Discount.ToString());
+            var AdditonalInformationField = createField("Papildus informācija", "", TenantExtraInforName);
+            fields[0] = TenantCountField;
+            fields[1] = Discountfield;
+            fields[2] = AdditonalInformationField;
+            newTenant.Fields = fields;
+            return newTenant;
         }
 
         private string getHundrenText(char value)

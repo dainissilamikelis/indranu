@@ -19,13 +19,12 @@ namespace indranu7.buisinessLogic
         public static ReceiptFormModel GetReceiptFields()
         {
             var receiptForm = new ReceiptFormModel();
-            var receiptFields = new FieldModel[11];
-            var apartmentFields = new FieldModel[14];
+            var receiptFields = new FieldModel[12];
+            var apartmentFields = new AssetModel[14];
             var utils = new utils();
-            var today = DateTime.Now;
-            var lastMonth = today.AddMonths(-1).Month;
 
-            receiptFields[0] = utils.createField("Mēnesis", "2019", "Month", utils.getMonthName(lastMonth), "text");
+ 
+            receiptFields[0] = utils.createField("Mēnesis", "2019", "Month", utils.getMonthName(), "text");
             receiptFields[1] = utils.createField("Elektroenerģija", "kWh", "EletricityAmount");
             receiptFields[2] = utils.createField("Elektrības maksa", "EUR", "EletricityCost");
             receiptFields[3] = utils.createField("Aukstais ūdens", "m3", "ColdWaterAmount");
@@ -35,51 +34,51 @@ namespace indranu7.buisinessLogic
             receiptFields[7] = utils.createField("Siltais ūdens", "m3", "HotWaterAmount");
             receiptFields[8] = utils.createField("Atkritumu izmaksa", "EUR", "WasteCost");
             receiptFields[9] = utils.createField("Nodoklis", "Eur", "TaxCost");
-            receiptFields[10] = utils.createField("Papildinformācija", "", "ExtraInfo", "", "Text");
+            receiptFields[10] = utils.createField("Papildinformācija", "", "ExtraInfo", "", "text");
+            receiptFields[11] = utils.createField("Versija", "", "Revision", "A", "text");
 
-            apartmentFields[0] = utils.createField("Dz.1", "īrnieki", "1_Tenats");
-            apartmentFields[1] = utils.createField("Dz.2", "īrnieki", "2_Tenats");
-            apartmentFields[2] = utils.createField("Dz.3", "īrnieki", "3_Tenats");
-            apartmentFields[3] = utils.createField("Dz.4", "īrnieki", "4_Tenats");
-            apartmentFields[4] = utils.createField("Dz.5", "īrnieki", "5_Tenats");
-            apartmentFields[5] = utils.createField("Dz.6", "īrnieki", "6_Tenats");
-            apartmentFields[6] = utils.createField("Dz.7", "īrnieki", "7_Tenats");
-            apartmentFields[7] = utils.createField("Dz.8", "īrnieki", "8_Tenats");
-            apartmentFields[8] = utils.createField("Dz.9", "īrnieki", "9_Tenats");
-            apartmentFields[9] = utils.createField("Dz.10", "īrnieki", "10_Tenats");
-            apartmentFields[10] = utils.createField("Dz.11", "īrnieki", "11_Tenats");
-            apartmentFields[11] = utils.createField("Dz.12", "īrnieki", "12_Tenats");
-            apartmentFields[12] = utils.createField("Dz.14", "īrnieki", "14_Tenats");
-            apartmentFields[13] = utils.createField("Dz.15", "īrnieki", "15_Tenats");
+            apartmentFields[0] = utils.createTenantFormField("Dz.1", 1.00M);
+            apartmentFields[1] = utils.createTenantFormField("Dz.2", 1.00M);
+            apartmentFields[2] = utils.createTenantFormField("Dz.3", 1.00M);
+            apartmentFields[3] = utils.createTenantFormField("Dz.4", 2.00M);
+            apartmentFields[4] = utils.createTenantFormField("Dz.5", 2.00M);
+            apartmentFields[5] = utils.createTenantFormField("Dz.6", 2.00M);
+            apartmentFields[6] = utils.createTenantFormField("Dz.7", 2.00M);
+            apartmentFields[7] = utils.createTenantFormField("Dz.8", 3.00M);
+            apartmentFields[8] = utils.createTenantFormField("Dz.9", 3.00M);
+            apartmentFields[9] = utils.createTenantFormField("Dz.10", 2.00M);
+            apartmentFields[10] = utils.createTenantFormField("Dz.11", 3.00M);
+            apartmentFields[11] = utils.createTenantFormField("Dz.12", 1.00M);
+            apartmentFields[12] = utils.createTenantFormField("Dz.14", 2.00M);
+            apartmentFields[13] = utils.createTenantFormField("Dz.15", 1.00M);
 
-            receiptForm.formFields = receiptFields;
-            receiptForm.apartmentFields = apartmentFields;
+            receiptForm.FormFields = receiptFields;
+            receiptForm.ApartmentFields = apartmentFields;
 
             return receiptForm;
         }
 
-        public static ReceiptModel[] GetReceipts(FieldModel[] inputFields)
+        public static ReceiptModel[] GetReceipts(ReceiptFormModel inputFields)
         {
             var receipts = new ReceiptModel[16];
             var utils = new utils();
-            var tarifs = calculations.GetTarifs(inputFields);
-
-            for (int i = 1; i < 15; i++)
+            var tarifs = calculations.GetTarifs(inputFields.FormFields);
+            for (int i = 0; i < 14; i++)
             {
-                if(i != 13)
-                {
-                    var newReceipt = new ReceiptModel();
-                    var receiver = utils.createPerson("Inese", "Silamiķele", "220261-10101", "Selgas iela 14-1", "Receiver");
-                    var payer = utils.createPerson("TEST" + i, "testing", "test-test", "Test 12");
-
-                    newReceipt.Label = i + ". Dzīvoklis";
-                    newReceipt.Receiver = receiver;
-                    newReceipt.Payer = payer;
-                    newReceipt.Value = i;
-                    newReceipt.Receipt = calculations.GetReceipt(tarifs, 54.16M, 1.0M);
-
-                    receipts[i] = newReceipt;
-                }
+                string apartmentNo = (i + 1).ToString();
+                if (i == 12) apartmentNo = "14";
+                if (i == 13) apartmentNo = "15";
+                
+                var newReceipt = new ReceiptModel();
+                var receiver = utils.createPerson("Inese", "Silamiķele", "220263-10101", "Selgas iela 14-1", "Receiver");
+                var payer = utils.createPerson("TEST" + apartmentNo, "testing", "test-test", "Test 12");
+                newReceipt.Label = apartmentNo + ". Dzīvoklis";
+                newReceipt.Id = String.Format("Nr. {0}-{1}-{2}-{3}", utils.getYear(), utils.getMonthName(), apartmentNo, tarifs["Version"]); 
+                newReceipt.Receiver = receiver;
+                newReceipt.Payer = payer;
+                newReceipt.Value = i;
+                newReceipt.Receipt = calculations.GetReceipt(tarifs, 54.16M, 1.0M);
+                receipts[i] = newReceipt;
             }
 
             return receipts;

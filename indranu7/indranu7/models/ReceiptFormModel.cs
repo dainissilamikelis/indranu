@@ -7,7 +7,7 @@ namespace indranu7.models
 {
     public class ReceiptFormModel
     {
-        public FieldModel[] formFields { get; set; }
-        public FieldModel[] apartmentFields { get; set; }
+        public FieldModel[] FormFields { get; set; }
+        public AssetModel[] ApartmentFields { get; set; }
     }
 }

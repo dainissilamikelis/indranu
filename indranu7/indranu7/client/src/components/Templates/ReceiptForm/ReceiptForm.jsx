@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import FieldBox from "../../Molecules/FieldBox/FieldBox";
+import FieldBox from "../../atoms/FieldBox/FieldBox";
 import Loader from "../../atoms/Loader/Loader";
 import "./ReceiptForm.scss";
 import {
@@ -9,21 +9,22 @@ import {
   Switch
 } from "@material-ui/core";
 import TabForm from "../../organisms/TabForm/TabForm";
-import { getInputValues, formatReceipts } from "../../../utils/utils";
+import {  getInputValues, getApartmentFieldValues, formatReceipts } from "../../../utils/utils";
 import axios from "axios";
+import ApartmentForm from "../ApartmentForm/ApartmentForm"
+;
 class ReceiptForm extends Component {
   state = {
     receipts: [],
     formFields: [],
-    apartmentFields: [],
-    loading: false,
+    apartments: [],
     hidden: true,
     showApartments: false,
   };
 
   componentDidMount = () => {
-    const { formFields, apartmentFields } = this.props;
-    this.setState({ formFields, apartmentFields });
+    const { form } = this.props;
+    this.setState({ formFields: form.formFields, apartments: form.apartmentFields });
   };
 
   hanldeShowApartmentFields = () => {
@@ -32,11 +33,13 @@ class ReceiptForm extends Component {
   }
 
   handleGetReceipts = async data => {
-    const { formFields, apartmentFields } = this.state;
-    this.setState({ loading: true });
-    const inputValues = [...getInputValues(formFields), ...getInputValues(apartmentFields)];
+    const { formFields, apartments } = this.state;
+    const FormFields = getInputValues(formFields);
+    const ApartmentFields = getApartmentFieldValues(apartments);
+    const test = { FormFields, ApartmentFields };
+    this.setState({ loading: true })
     axios
-      .post("http://localhost:61466/api/receipt/getReciepts", inputValues)
+      .post("http://localhost:61466/api/receipt/getReciepts", test)
       .then(response => {
         console.log(response.data);
         this.setState({
@@ -52,7 +55,7 @@ class ReceiptForm extends Component {
   };
 
   render() {
-    const { formFields, apartmentFields, receipts, loading, hidden, showApartments } = this.state;
+    const {formFields, apartments, receipts, loading, hidden, showApartments } = this.state;
     return (
       <div className="receiptForm">
         <form onSubmit={this.handleGetReceipts}>
@@ -66,17 +69,8 @@ class ReceiptForm extends Component {
               control={<Switch value="checkedA" />}
               label="Dzīvokļi"
             />
-          <div hidden={!showApartments}>
-          {apartmentFields.map(field => (
-            <FieldBox
-              key={field.label}
-              label={field.label}
-              inputType={field.type}
-              unit={field.unit}
-              value={field.value}
-              setRef={field.ref} 
-            />
-          ))}
+          <div className="apartment-area" hidden={!showApartments}>
+            <ApartmentForm apartments={apartments} />
           </div>
           </div>
           {formFields.map(field => (
@@ -100,7 +94,10 @@ class ReceiptForm extends Component {
           <Loader />
         ) : (
           <div className="receipt-page" hidden={hidden}>
-            <TabForm receipts={receipts} />
+          {receipts.length > 0
+          ? <TabForm receipts={receipts} />
+          : <p> Rēķinus neizdevās atrast, notika kļūme... </p>
+          }
           </div>
         )}
       </div>

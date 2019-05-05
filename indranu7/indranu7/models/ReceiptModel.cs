@@ -8,8 +8,9 @@ namespace indranu7.models
     public class ReceiptModel
     {
         public string Label { get; set; }
+        public string Id { get; set; }
         public int Value { get; set; }
-        public AmoutCostForm Receipt { get; set; }
+        public AmountCostForm Receipt { get; set; }
         public FieldModel[] Payer { get; set; }
         public FieldModel[] Receiver { get; set; }
     }

@@ -3,7 +3,7 @@ import axios from "axios";
 import Loader from "../../atoms/Loader/Loader";
 import "./ReceiptPage.scss";
 import ReceiptForm from "../../Templates/ReceiptForm/ReceiptForm";
-import { formatFields, formatReceiptForm } from "../../../utils/utils";
+import {  formatReceiptForm } from "../../../utils/utils";
 
 class ReceiptPage extends Component {
   state = {
@@ -21,7 +21,7 @@ class ReceiptPage extends Component {
     const { loading, form} = this.state;
     return (
       <div className="ReceiptPage">
-        {loading ? <Loader /> : <ReceiptForm formFields={form.formFields} apartmentFields={form.apartmentFields} />}
+        {loading ? <Loader /> : <ReceiptForm form={form} />}
       </div>
     );
   }

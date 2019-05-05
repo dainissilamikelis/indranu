@@ -5,29 +5,47 @@ import Tab from "@material-ui/core/Tab";
 import Receipt from "../Receipt/Receipt";
 import { Button } from "@material-ui/core";
 import axios from "axios";
-
+import Loader from "../../atoms/Loader/Loader";
+import { setReceiptFieldValues, formatReceiptForm } from '../../../utils/utils';
 class TabForm extends React.Component {
   state = {
-    value: 1,
+    value: 0,
     loading: false
   };
 
-  handleChange = ( value) => {
+  handleChange = (event, value) => {
+    debugger;
     this.setState({ value });
   };
 
-  handleGetPDF = () => {
-    debugger;
-    this.setState({loading: true});
-    axios.get('http://localhost:61466/api/receipt/getPDF', { responseType: 'blob'}).then(response => {
-
-
+  componentDidMount = () => {
+    const { receipts } = this.props;
+    const { value } = receipts[0];
+    this.setState({ value })
   }
 
+  handleGetPDF = () => {
+    const { receipts } = this.props;
+    setReceiptFieldValues(receipts);
+    this.setState({loading: true});
+    axios.post('http://localhost:61466/api/receipt/getPDF',receipts, { responseType: 'blob'})
+      .then(response => { 
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'rekini.pdf');
+        document.body.appendChild(link);
+        link.click();
+        this.setState({loading:false});
+      });
+  }
 
   render() {
-    const { value } = this.state;
+    const { value, loading } = this.state;
     const { receipts } = this.props;
+
+    if (loading) return <Loader />
+
     return (
       <div>
         <Button onClick={this.handleGetPDF}> Lejuplādēt PDF rēķinus </Button>
@@ -40,7 +58,7 @@ class TabForm extends React.Component {
           >
             {receipts.map(receipt => (
               <Tab
-                key={receipt.label}
+                key={receipt.value}
                 style={{ minWidth: "50px", paddingLeft: 0, paddingRight: 0 }}
                 className="tab"
                 label={receipt.label}
