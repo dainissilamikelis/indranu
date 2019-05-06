@@ -81,6 +81,7 @@ class ReceiptForm extends Component {
               unit={field.unit}
               value={field.value}
               setRef={field.ref}
+              sizeType={"input-text--input"}
             />
           ))}
         </form>

@@ -1,6 +1,12 @@
 .input-text {
   min-width: 100px;
+  text-align: center;
+
+  input {
+    color: black;
+  }
 }
+
 
 .readOnly {
   color: black;
@@ -19,8 +25,12 @@
   max-width: 120px;
 }
 
+.input-text--input{
+  max-width: 160px;
+}
+
 .input-text--medium{
-  max-width: 200px;
+  max-width: 160px;
 }
 
 .input-text--part {

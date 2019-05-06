@@ -3,6 +3,7 @@ import "./FieldBox.scss";
 import { TextField } from "@material-ui/core";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
+
 class FieldBox extends Component {
   state = { value: "" };
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { read } from 'fs';
 
 export function formatReceiptForm(receiptForm) {
     receiptForm.formFields.forEach(field => {
@@ -73,15 +72,4 @@ export function formatReceipts(receipts) {
     return newReceipts;
 }
 
-export function setReceiptFieldValues(receipts) {
-    receipts.forEach(receiptForm => {
-        const { payer, receiver, receipt } =  receiptForm;
-        const { additionalInformation, closingInformation, costFields, fields } = receipt;
-        setFieldValue(additionalInformation);
-        setFieldValue(closingInformation);
-        setFieldValue(costFields);
-        setFieldValue(fields);
-        setFieldValue(payer);
-        setFieldValue(receiver);
-    });
-}
+

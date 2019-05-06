@@ -27,7 +27,6 @@ namespace indranu7.buisinessLogic
             return new Paragraph(text, myFont);
         }
 
-
         private void AddReceiptCosts(PdfPTable SplitTable)
         {
             PdfPTable receiptForm = new PdfPTable(4);
