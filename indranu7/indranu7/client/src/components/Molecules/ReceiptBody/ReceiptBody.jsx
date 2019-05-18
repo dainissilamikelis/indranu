@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, CostTable } from "../Table/Table";
+import './ReceiptBody.scss';
 
 const ReceiptBody = ({ receipt }) => {
   const {
@@ -10,14 +11,20 @@ const ReceiptBody = ({ receipt }) => {
   } = receipt;
   return (
     <div>
-      <h5> Maksājumi </h5>
-      <Table fields={fields} />
-      <h5> Maksājumi </h5>
-      <CostTable costFields={costFields} />
-      <h5> Maksājumi </h5>
-      <Table fields={additionalInformation} />
-      <h5> Maksājumi </h5>
-      <Table fields={closingInformation} />
+      <h5> Rēķins </h5>
+      <div className="fields">
+        <Table fields={fields} />
+      </div>
+      <div className="costFields">
+        <CostTable costFields={costFields} />
+      </div>
+      <div className="additionalInformation">
+        <h5> Papildinformācija </h5>
+        <Table fields={additionalInformation} />
+      </div>
+      <div className="closingInformation">
+        <Table fields={closingInformation} />
+      </div>
     </div>
   );
 };

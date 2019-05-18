@@ -38,6 +38,7 @@ class ReceiptForm extends Component {
     const ApartmentFields = getApartmentFieldValues(apartments);
     const test = { FormFields, ApartmentFields };
     this.setState({ loading: true })
+    debugger;
     axios
       .post("http://localhost:61466/api/receipt/getReciepts", test)
       .then(response => {

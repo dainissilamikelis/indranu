@@ -1,3 +1,13 @@
 .tab {
   max-width: 50px;
 }
+
+.receipts-grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  overflow: hidden;
+}
+
+.receipt-1 {
+  border-right: 3px dotted black;
+}

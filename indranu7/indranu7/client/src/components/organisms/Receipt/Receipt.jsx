@@ -8,21 +8,23 @@ function evaluateVisibility(current, value) {
   return true;
 }
 
-function handleSave() {}
-
 const Receipt = ({ receipt, current }) => {
   const { payer, receiver, receipt: newReceipt } = receipt;
-  console.log(payer);
+  console.log(receipt);
   return (
     <div
       className="receipt-table"
       hidden={evaluateVisibility(current, receipt.value)}
-    >
-      <h5> Maksājuma saņēmējs </h5>
-      <Table fields={receiver} />
-      <h5> Maksātājs </h5>
-      <Table fields={payer} />
-      <h5> Rēķins </h5>
+    > 
+    <div className="PersonArea"> 
+      <div className="person">     
+        <h5> Maksājuma saņēmējs </h5>
+        <Table fields={receiver} />
+      </div> 
+      <div className="person">
+        <h5> Maksātājs </h5>
+        <Table fields={payer} /> </div>
+      </div>
       <ReceiptBody receipt={newReceipt} />
     </div>
   );

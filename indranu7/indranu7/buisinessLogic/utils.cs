@@ -111,8 +111,8 @@ namespace indranu7.buisinessLogic
             string amountLabel = Label;
             string costName = Name + "Cost";
             string amountName = Name + "Amount";
-            newCostField.CostField = createField(costLabel, "EUR", costName);
-            newCostField.AmountField = createField(Label, AmountUnit, amountName);
+            newCostField.CostField = createField(costLabel, "EUR", costName, CostValue.ToString());
+            newCostField.AmountField = createField(Label, AmountUnit, amountName, ValueAmount.ToString());
 
             return newCostField;
         }

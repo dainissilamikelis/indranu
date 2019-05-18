@@ -1,0 +1,42 @@
+.fields {
+  padding: 0px;
+  width: 400px;
+  margin: 20px;
+  th {
+    max-width: 200px;
+  }
+  td {
+    min-width: 60px;
+    max-width: 60px;
+  }
+}
+.costFields {
+  padding: 0px;
+  width: 600px;
+  margin: 20px;
+  th {
+    max-width: 200px;
+  }
+  td {
+    min-width: 60px;
+    max-width: 60px;
+  }
+}
+
+.additionalInformation {
+ padding: 0px;
+  width: 50%;
+  margin: 20px;
+  td {
+    width: 50%;
+  }
+}
+
+.closingInformation {
+ padding: 0px;
+  width: 50%;
+  margin: 20px;
+  td {
+    width: 50%;
+  }
+}

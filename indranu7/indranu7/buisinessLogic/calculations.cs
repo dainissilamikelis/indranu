@@ -74,7 +74,6 @@ namespace indranu7.buisinessLogic
                 else fieldMap.Add(field.Name, field.Value);
             }
 
-
             decimal ColdWaterLoss = GetConstants()["ColdWaterLoss"];
             decimal WaterHeating = GetConstants()["WaterHeating"];
             decimal HeatingEnergyLoss = GetConstants()["HeatingEnergyLoss"];

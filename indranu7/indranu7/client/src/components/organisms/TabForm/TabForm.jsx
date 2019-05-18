@@ -5,6 +5,7 @@ import Tab from "@material-ui/core/Tab";
 import Receipt from "../Receipt/Receipt";
 import { Button } from "@material-ui/core";
 import Loader from "../../atoms/Loader/Loader";
+import './TabForm.scss';
 
 class TabForm extends React.Component {
   state = {
@@ -54,7 +55,14 @@ class TabForm extends React.Component {
           </Tabs>
         </AppBar>
         {receipts.map(receipt => (
-          <Receipt key={receipt.value} receipt={receipt} current={value} />
+          <div className="receipts-grid">
+            <div className="receipt-part receipt-1">
+              <Receipt key={receipt.value} receipt={receipt} current={value} />
+            </div>
+            <div className="receipt-part">
+              <Receipt key={receipt.value} receipt={receipt} current={value} />
+            </div>
+          </div>
         ))}
       </div>
     );

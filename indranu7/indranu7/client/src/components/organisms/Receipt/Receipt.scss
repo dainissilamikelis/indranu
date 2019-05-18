@@ -1,20 +1,18 @@
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 50%;
-  margin: auto;
+.receipt-table {
+  margin:0 auto;
 }
 
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
+.PersonArea {
+  overflow: hidden;
+  width: 100%;
 }
 
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-
-.receipt-table{
-  text-align: center;
+.person {
+  padding: 0px;
+  float:left;
+  width: 400px;
+  margin: 20px;
+  td {
+    width: 50%;
+  }
 }
