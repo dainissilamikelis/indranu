@@ -5,7 +5,8 @@ import Tab from "@material-ui/core/Tab";
 import Receipt from "../Receipt/Receipt";
 import { Button } from "@material-ui/core";
 import Loader from "../../atoms/Loader/Loader";
-
+import { PDFViewer, ReactPDF } from 'react-pdf';
+import MyDocument from '../../Templates/PrintReceipt/PrintReceipt';
 class TabForm extends React.Component {
   state = {
     value: 0,
@@ -20,6 +21,7 @@ class TabForm extends React.Component {
   componentDidMount = () => {
     const { receipts } = this.props;
     const { value } = receipts[0];
+    ReactPDF.render(<MyDocument />, `${__dirname}/example.pdf`);
     this.setState({ value })
   }
 

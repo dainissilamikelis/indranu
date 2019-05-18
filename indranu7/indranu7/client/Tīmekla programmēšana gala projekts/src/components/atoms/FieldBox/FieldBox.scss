@@ -1,0 +1,41 @@
+.input-text {
+  min-width: 100px;
+  text-align: center;
+
+  input {
+    color: black;
+  }
+}
+
+
+.readOnly {
+  color: black;
+}
+
+.input-text--default {
+  width: 250px;
+  max-width: 250px;
+}
+
+.input-text--big{ 
+  max-width: 400px;
+}
+
+.input-text--small{
+  max-width: 120px;
+}
+
+.input-text--input{
+  max-width: 160px;
+}
+
+.input-text--medium{
+  max-width: 160px;
+}
+
+.input-text--part {
+  max-width: 45%;
+}
+.fullWidth {
+  max-width: 100%;
+}
