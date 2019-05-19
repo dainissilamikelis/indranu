@@ -1,5 +1,5 @@
 .receipt-table {
-  margin:0 auto;
+  margin: 0 auto;
 }
 
 .PersonArea {
@@ -9,11 +9,15 @@
 
 .person {
   padding: 0px;
-  float:left;
-  max-width: 10cm;
-  min-width: 10cm;
-  margin: 10px;
-  td {
-    width: 50%;
+  float: left;
+  max-width: 7cm;
+  min-width: 7cm;
+  table {
+    margin: 0px;
+    max-width: 7cm;
   }
+}
+
+.payer {
+  margin-right: 5mm;
 }

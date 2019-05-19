@@ -59,25 +59,71 @@ function costFieldRefMaker(costFields) {
   });
 }
 
-export function formatReceipts(receipts) {
-  const newReceipts = [];
+export function formatReceipts(data) {
+  const newReceipts = {
+    info: [],
+    receipts: [],
+    tarifs: []
+  };
+  const { receipts, info, tarifs } = data;
+
   receipts.forEach(receiptForm => {
     if (receiptForm !== null) {
-      const { payer, receiver, receipt } = receiptForm;
-      const {
-        additionalInformation,
-        closingInformation,
-        costFields,
-        fields
-      } = receipt;
-      refMaker(payer);
-      refMaker(receiver);
-      refMaker(additionalInformation);
-      refMaker(closingInformation);
-      costFieldRefMaker(costFields);
-      newReceipts.push(receiptForm);
+      newReceipts.receipts.push(receiptForm);
+    }
+  });
+
+  info.forEach(infoLine => {
+    if (infoLine !== null) {
+      newReceipts.info.push(infoLine);
+    }
+  });
+
+  tarifs.forEach(tarif => {
+    if (tarif !== null) {
+      newReceipts.tarifs.push(tarif);
     }
   });
 
   return newReceipts;
+}
+
+export function sumDecimals(decimals) {
+  var newDecimal = 0;
+  decimals.forEach(number => {
+    newDecimal += number;
+  });
+  return newDecimal.toFixed(2);
+}
+
+export function getColumnSum(columns) {
+  const keys = Object.keys(columns[0]);
+  const values = new Map();
+  keys.forEach(key => {
+    const value = columns.reduce((a, column) => {
+      return a + column[key];
+    }, 0);
+    const roundedValue = parseFloat(value.toFixed(2));
+    values.set(key, roundedValue);
+  });
+
+  values.set(
+    "rentTOTAL",
+    sumDecimals([
+      values.get("rent"),
+      values.get("wasteCost"),
+      values.get("parking")
+    ])
+  );
+
+  values.set(
+    "hotWaterTOTAL",
+    sumDecimals([
+      values.get("heatingCost"),
+      values.get("hotWaterCost"),
+      values.get("hotWaterLossCost")
+    ])
+  );
+
+  return values;
 }

@@ -16,7 +16,6 @@ class TabForm extends React.Component {
   };
 
   handleChange = (event, value) => {
-    debugger;
     this.setState({ value });
   };
 

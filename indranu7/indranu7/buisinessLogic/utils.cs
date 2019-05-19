@@ -60,10 +60,15 @@ namespace indranu7.buisinessLogic
             return Amout * Tarif;
         }
 
-        public decimal roundMultiply(decimal value1, decimal value2)
+        public decimal roundMultiply(decimal value1, decimal value2, int decimals = 4)
         {
             var value = value1 * value2;
-            return Math.Round(value, 2);
+            return Math.Round(value, decimals);
+        }
+
+        public decimal multiply(decimal value1, decimal value2)
+        {
+            return value1 * value2;
         }
 
         public decimal formatValueToDecimal(string value)
@@ -81,7 +86,7 @@ namespace indranu7.buisinessLogic
         public FieldModel[] createSignatures(string payerName, string payerSurname)
         {
             var signatures = new FieldModel[4];
-            signatures[0] = createField("Saņēmēja paraksts", "", "ReceiverSignature", "" ,"text");
+            signatures[0] = createField("Saņēmēja paraksts", "", "ReceiverSignature", "", "text");
             signatures[1] = createField("Atšifrējums", "", "ReceiverSignatureMeaning", "Inese Silamiķele", "text");
             signatures[2] = createField("Saņēmēja paraksts", "", "PayerSignature", "", "text");
             signatures[3] = createField("Atšifrējums", "", "PayerSignatureMeaning", payerName + payerSurname, "text");
@@ -113,6 +118,15 @@ namespace indranu7.buisinessLogic
             newField.Value = Value;
 
             return newField;
+        }
+
+        public TarifModel createTarifField(string Name, decimal Value)
+        {
+            var tarif = new TarifModel();
+            tarif.TarifName = Name;
+            tarif.Tarif = Value;
+
+            return tarif;
         }
 
         public CostFieldModel createCostField(string Label, string AmountUnit, string Name, decimal ValueAmount = 0.00M, decimal CostValue = 0.00M)
@@ -198,10 +212,13 @@ namespace indranu7.buisinessLogic
 
         private string getTenText(char value)
         {
-            var defValue = "desmit";
+            var defValue = "";
             var addValue = "";
             switch (value)
             {
+                case '1':
+                    addValue = "desmit";
+                    break;
                 case '2':
                     addValue = "div";
                     break;
@@ -426,7 +443,7 @@ namespace indranu7.buisinessLogic
 
         public decimal GetParking(int apartmentId)
         {
-            if (apartmentId == 1 || apartmentId == 7 || apartmentId == 10 || apartmentId == 1 || apartmentId == 2)
+            if (apartmentId == 1 || apartmentId == 7 || apartmentId == 10 || apartmentId == 11 || apartmentId == 12)
                 return 25;
 
             return 0;

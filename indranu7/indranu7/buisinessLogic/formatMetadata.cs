@@ -33,7 +33,7 @@ namespace indranu7.buisinessLogic
             receiptFields[6] = utils.createField("Apkures maksa", "EUR", "HeatCost", "1104.21");
             receiptFields[7] = utils.createField("Siltais ūdens", "m3", "HotWaterAmount", "46");
             receiptFields[8] = utils.createField("Atkritumu izmaksa", "EUR", "WasteCost", "58.31");
-            receiptFields[9] = utils.createField("Nodoklis", "Eur", "TaxCost", "202.77" );
+            receiptFields[9] = utils.createField("Nodoklis", "Eur", "TaxCost", "202.77");
             receiptFields[10] = utils.createField("Papildinformācija", "", "ExtraInfo", "", "text");
             receiptFields[11] = utils.createField("Versija", "", "Revision", "A", "text");
 
@@ -58,11 +58,20 @@ namespace indranu7.buisinessLogic
             return receiptForm;
         }
 
-        public static ReceiptModel[] GetReceipts(ReceiptFormModel inputFields)
+        public static ReceiptInfoModel GetReceipts(ReceiptFormModel inputFields)
         {
+            var ReceiptInfo = new ReceiptInfoModel();
             var receipts = new ReceiptModel[16];
+            var GlobalTarifs = new TarifModel[3];
+            //fix naming
+            var infoLines = new InfoModel[16];
+            var infoModel = new InfoLine();
             var utils = new utils();
             var tarifs = calculations.GetTarifs(inputFields.FormFields);
+
+            GlobalTarifs[0] = utils.createTarifField("Ūdens", tarifs["GLOBAL_Water"]);
+            GlobalTarifs[1] = utils.createTarifField("Apkure", tarifs["GLOBAL_Heat"]);
+            GlobalTarifs[2] = utils.createTarifField("Eletrība", tarifs["GLOBAL_Eletricity"]);
 
             for (int i = 0; i < 14; i++)
             {
@@ -79,11 +88,16 @@ namespace indranu7.buisinessLogic
                 newReceipt.Receiver = receiver;
                 newReceipt.Payer = payer;
                 newReceipt.Value = i;
-                newReceipt.Receipt = calculations.GetReceipt(tarifs, apartmentNo);
+                infoModel = calculations.GetReceipt(tarifs, apartmentNo);
+                newReceipt.Receipt = infoModel.receipt;
+                infoLines[i] = infoModel.infoLine;
                 receipts[i] = newReceipt;
             }
+            ReceiptInfo.Receipts = receipts;
+            ReceiptInfo.Info = infoLines;
+            ReceiptInfo.Tarifs = GlobalTarifs;
 
-            return receipts;
+            return ReceiptInfo;
         }
 
         public static AssetModel[] GetAssets()

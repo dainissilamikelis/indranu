@@ -9,44 +9,60 @@ import {
   Switch
 } from "@material-ui/core";
 import TabForm from "../../organisms/TabForm/TabForm";
-import {  getInputValues, getApartmentFieldValues, formatReceipts } from "../../../utils/utils";
+import {
+  getInputValues,
+  getApartmentFieldValues,
+  formatReceipts
+} from "../../../utils/utils";
 import axios from "axios";
-import ApartmentForm from "../ApartmentForm/ApartmentForm"
-;
+import ApartmentForm from "../ApartmentForm/ApartmentForm";
+import Info from "../../organisms/Info/Info";
+import Tarifs from "../../organisms/Tarifs/Tarifs";
+
 class ReceiptForm extends Component {
   state = {
-    receipts: [],
+    receiptData: {
+      info: [],
+      receipts: []
+    },
     formFields: [],
     apartments: [],
     hidden: true,
     showApartments: false,
+    showReceipts: false
   };
 
   componentDidMount = () => {
     const { form } = this.props;
-    this.setState({ formFields: form.formFields, apartments: form.apartmentFields });
+    this.setState({
+      formFields: form.formFields,
+      apartments: form.apartmentFields
+    });
   };
 
   hanldeShowApartmentFields = () => {
-    const {showApartments } = this.state;
-    this.setState({showApartments: !showApartments});
-  }
+    const { showApartments } = this.state;
+    this.setState({ showApartments: !showApartments });
+  };
 
-  handleGetReceipts = async data => {
+  hanldeShowApartmentReceipts = () => {
+    const { showReceipts } = this.state;
+    this.setState({ showReceipts: !showReceipts });
+  };
+
+  handleGetReceipts = async () => {
     const { formFields, apartments } = this.state;
     const FormFields = getInputValues(formFields);
     const ApartmentFields = getApartmentFieldValues(apartments);
     const test = { FormFields, ApartmentFields };
-    this.setState({ loading: true })
-    debugger;
+    this.setState({ loading: true });
     axios
       .post("http://localhost:61466/api/receipt/getReciepts", test)
       .then(response => {
-        console.log(response.data);
         this.setState({
           loading: false,
           hidden: false,
-          receipts: formatReceipts(response.data)
+          receiptData: formatReceipts(response.data)
         });
       });
   };
@@ -56,7 +72,17 @@ class ReceiptForm extends Component {
   };
 
   render() {
-    const {formFields, apartments, receipts, loading, hidden, showApartments } = this.state;
+    const {
+      formFields,
+      apartments,
+      receiptData,
+      loading,
+      hidden,
+      showApartments,
+      showReceipts
+    } = this.state;
+    const { info, receipts, tarifs } = receiptData;
+    console.log(receiptData);
     return (
       <div className="receiptForm">
         <form onSubmit={this.handleGetReceipts}>
@@ -70,9 +96,14 @@ class ReceiptForm extends Component {
               control={<Switch value="checkedA" />}
               label="Dzīvokļi"
             />
-          <div className="apartment-area" hidden={!showApartments}>
-            <ApartmentForm apartments={apartments} />
-          </div>
+            <FormControlLabel
+              onChange={this.hanldeShowApartmentReceipts}
+              control={<Switch value="checkedA" />}
+              label="Rādīt rēķinus"
+            />
+            <div className="apartment-area" hidden={!showApartments}>
+              <ApartmentForm apartments={apartments} />
+            </div>
           </div>
           {formFields.map(field => (
             <FieldBox
@@ -96,10 +127,17 @@ class ReceiptForm extends Component {
           <Loader />
         ) : (
           <div className="receipt-page" hidden={hidden}>
-          {receipts.length > 0
-          ? <TabForm receipts={receipts} />
-          : <p> Rēķinus neizdevās atrast, notika kļūme... </p>
-          }
+            {receipts.length > 0 ? (
+              <>
+                <Tarifs tarifs={tarifs} />
+                <Info info={info} />
+                <div hidden={!showReceipts}>
+                  <TabForm receipts={receipts} />
+                </div>
+              </>
+            ) : (
+              <p> Rēķinus neizdevās atrast, notika kļūme... </p>
+            )}
           </div>
         )}
       </div>

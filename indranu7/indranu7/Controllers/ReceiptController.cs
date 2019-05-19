@@ -27,7 +27,7 @@ namespace indranu7.Controllers
         [HttpPost]
         [EnableCors("AllowMyOrigin")]
         [ActionName("getReciepts")]
-        public ReceiptModel[] Post([FromBody] ReceiptFormModel inputFields)
+        public ReceiptInfoModel Post([FromBody] ReceiptFormModel inputFields)
         {
             return formatMetadata.GetReceipts(inputFields);
         }

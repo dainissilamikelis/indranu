@@ -17,7 +17,7 @@ const Receipt = ({ receipt, current }) => {
     >
       {receipt.id}
       <div className="PersonArea">
-        <div className="person">
+        <div className="person payer">
           <h5> Maksājuma saņēmējs </h5>
           <Table fields={receiver} />
         </div>
@@ -29,10 +29,12 @@ const Receipt = ({ receipt, current }) => {
       <ReceiptBody receipt={newReceipt} />
 
       <div>
-        Saņēmēja paraksts ____________________________, Atšifrējums Inese Silamiķele
+        Saņēmēja paraksts ____________________________, Atšifrējums Inese
+        Silamiķele
       </div>
-            <div>
-        Maksatāja paraksts ____________________________, Atšifrējums ________________
+      <div>
+        Maksatāja paraksts ____________________________, Atšifrējums
+        ________________
       </div>
     </div>
   );

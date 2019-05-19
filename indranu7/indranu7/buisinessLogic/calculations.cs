@@ -36,7 +36,7 @@ namespace indranu7.buisinessLogic
             var constants = new Dictionary<string, decimal>();
 
             constants.Add("ColdWaterLoss", 18.5M);
-            constants.Add("WaterHeating", 0.126M);
+            constants.Add("WaterHeating", 0.06M);
             constants.Add("HeatingEnergyLoss", 1.24M);
             constants.Add("Power", 0.1M);
             constants.Add("TenantCount", 26.00M);
@@ -69,12 +69,14 @@ namespace indranu7.buisinessLogic
             decimal WaterHeatingEnergyAmount = GetWaterHeatingEnergy_TOTAL(fieldMap["HotWaterAmount"], WaterHeating);
             decimal TotalHeatingEneryUsed = GetHeatingEnergy_TOTAL(fieldMap["HeatAmount"], WaterHeatingEnergyAmount, HeatingEnergyLoss);
 
+            //global tarifs
             decimal HeatTarif = utils.GetTarif(fieldMap["HeatCost"], fieldMap["HeatAmount"]);
             decimal WaterTarif = utils.GetTarif(fieldMap["ColdWaterCost"], fieldMap["ColdWaterAmount"]);
+            decimal EletricityTarif = utils.GetTarif(fieldMap["EletricityCost"], fieldMap["EletricityAmount"]);
 
             // based on apartment count
             decimal WaterLossPerAppartmentTarif = utils.GetTarif(ColdWaterLoss, apparmentCount);
-            decimal WaterHeatingLossPerApparmentTarif = utils.GetTarif(WaterHeating, apparmentCount);
+            decimal WaterHeatingLossPerApparmentTarif = utils.GetTarif(HeatingEnergyLoss, apparmentCount);
             decimal UpkeepEletricityCost = utils.GetTarif(fieldMap["EletricityCost"], apparmentCount);
             decimal UpkeepEletrcitiyAmount = utils.GetTarif(fieldMap["EletricityAmount"], apparmentCount);
             decimal HeatingEnergyLossAmount = GetHeatingEnergyLoss(HeatingEnergyLoss);
@@ -100,8 +102,9 @@ namespace indranu7.buisinessLogic
             tarifMap.Add("UpkeepEletricityCost", UpkeepEletricityCost);
             tarifMap.Add("Waste", WastePerTenantTarif);
             tarifMap.Add("Tax", TaxTarifPerSqoureMeter);
-            tarifMap.Add("Water", WaterTarif);
-            tarifMap.Add("Heat", HeatTarif);
+            tarifMap.Add("GLOBAL_Eletricity", EletricityTarif);
+            tarifMap.Add("GLOBAL_Water", WaterTarif);
+            tarifMap.Add("GLOBAL_Heat", HeatTarif);
             tarifMap.Add("ExtraInfo", AdditionalInformation);
             tarifMap.Add("Version", Revision);
             tarifMap.Add("HeatingEnergyLossCost", HeatingEnergyLossAmount);
@@ -109,12 +112,26 @@ namespace indranu7.buisinessLogic
             return tarifMap;
         }
 
-        public static AmountCostForm GetReceipt(
+        public static InfoLine GetReceipt(
             Dictionary<string, dynamic> tarifs,
             int apartmentNo
             )
         {
+
             var utils = new utils();
+
+            var infoLine = new InfoLine();
+
+            var receipt = new AmountCostForm();
+            var infoModel = new InfoModel();
+
+            var receiptCostFields = new CostFieldModel[14];
+            var additionalInformation = new FieldModel[2];
+            var endInformation = new FieldModel[2];
+            var signatureInformation = new FieldModel[4];
+
+
+
             var apartmentArea = utils.GetApartmentArea(apartmentNo);
             var tenantsInAparment = utils.GetDefaultTenantCount(apartmentNo);
             var rent = utils.GetRent(apartmentNo);
@@ -123,44 +140,43 @@ namespace indranu7.buisinessLogic
             decimal coldWaterLoss = GetConstants()["ColdWaterLoss"];
             decimal waterHeating = GetConstants()["WaterHeating"];
 
-            var receipt = new AmountCostForm();
-            var receiptCostFields = new CostFieldModel[14];
-            var additionalInformation = new FieldModel[2];
-            var endInformation = new FieldModel[2];
-            var signatureInformation = new FieldModel[4];
-
             decimal coldWaterTarif = tarifs["ColdWater"];
-            decimal waterLossTarif = Math.Round(tarifs["WaterLoss"], 2);
+            decimal waterLossTarif = Math.Round(tarifs["WaterLoss"], 4);
             decimal waterHeatingTarif = tarifs["WaterHeating"];
             decimal waterHeatingLossTarif = tarifs["WaterHeatingLoss"];
             decimal heatingTarif = tarifs["Heating"];
-            decimal upkeepAmount = Math.Round(tarifs["UpkeepEletricity"], 2);
-            decimal upkeepCost = Math.Round(tarifs["UpkeepEletricityCost"], 2);
+            decimal upkeepAmount = Math.Round(tarifs["UpkeepEletricity"], 4);
+
             decimal wasteTarif = tarifs["Waste"];
             decimal taxTarif = tarifs["Tax"];
-            decimal waterTarif = tarifs["Water"];
-            decimal heatTarif = tarifs["Heat"];
-            decimal heatingLossCost = Math.Round(tarifs["HeatingEnergyLossCost"], 3);
+            decimal waterTarif = tarifs["GLOBAL_Water"];
+            decimal heatTarif = tarifs["GLOBAL_Heat"];
+            decimal heatingLossCost = Math.Round(tarifs["HeatingEnergyLossCost"], 4);
             string extraInfo = tarifs["ExtraInfo"];
 
+            //daudzumu lauki
             decimal ColdWaterUsed = utils.roundMultiply(coldWaterTarif, tenantsInAparment);
             decimal WaterHeatingApartment = utils.roundMultiply(waterHeatingTarif, tenantsInAparment);
             decimal Heating = utils.roundMultiply(heatingTarif, apartmentArea);
-            decimal waste = utils.roundMultiply(wasteTarif, tenantsInAparment);
-            decimal tax = utils.roundMultiply(taxTarif, apartmentArea);
 
-            decimal ColdWaterUsedSum = utils.roundMultiply(ColdWaterUsed, waterTarif);
-            decimal ColdWaterLossSum = utils.roundMultiply(waterLossTarif, waterTarif);
-            decimal WaterHeatingSum = utils.roundMultiply(waterHeating, heatTarif);
-            decimal WaterHeatingLossSum = utils.roundMultiply(heatingLossCost, heatTarif);
-            decimal HeatingSum = utils.roundMultiply(Heating, heatTarif);
+            //summu lauki
+            decimal ColdWaterUsedSum = utils.roundMultiply(ColdWaterUsed, waterTarif, 2);
+            decimal ColdWaterLossSum = utils.roundMultiply(waterLossTarif, waterTarif, 2);
+            decimal WaterHeatingSum = utils.roundMultiply(WaterHeatingApartment, heatTarif, 2);
+            decimal WaterHeatingLossSum = utils.roundMultiply(heatingLossCost, heatTarif, 2);
+            decimal HeatingSum = utils.roundMultiply(Heating, heatTarif, 2);
+            decimal upkeepCost = Math.Round(tarifs["UpkeepEletricityCost"], 2);
+            decimal waste = utils.roundMultiply(wasteTarif, tenantsInAparment, 2);
+            decimal tax = utils.roundMultiply(taxTarif, apartmentArea, 2);
 
-            decimal utilitiesSum = ColdWaterUsedSum + ColdWaterLossSum + WaterHeatingSum + WaterHeatingLossSum + HeatingSum + upkeepCost;
+
+            decimal utilitiesSum = ColdWaterUsedSum + ColdWaterLossSum + WaterHeatingSum + WaterHeatingLossSum + HeatingSum + upkeepCost + waste;
             decimal apartmentSum = tax + parking + rent + 0.00M;
             decimal sum = utilitiesSum + apartmentSum;
 
             receiptCostFields[0] = utils.createCostField("Aukstais ūdends un kanalizācija", "m3", "ColdWater", ColdWaterUsed, ColdWaterUsedSum);
             receiptCostFields[1] = utils.createCostField("Ausktā ūdens un zudumi", "m3", "ColdWaterLoss", waterLossTarif, ColdWaterLossSum);
+
             receiptCostFields[2] = utils.createCostField("Siltais ūdens", "MWh", "WaterHeating", WaterHeatingApartment, WaterHeatingSum);
             receiptCostFields[3] = utils.createCostField("Siltā ūdens zudumi", "MWh", "WaterHeatingLoss", heatingLossCost, WaterHeatingLossSum);
             receiptCostFields[4] = utils.createCostField("Apkure", "MWh", "Heating", Heating, HeatingSum);
@@ -184,7 +200,36 @@ namespace indranu7.buisinessLogic
             receipt.AdditionalInformation = additionalInformation;
             receipt.ClosingInformation = endInformation;
 
-            return receipt;
+            infoModel.ApartmentNo = apartmentNo;
+
+            infoModel.Heating = Heating;
+            infoModel.HeatingCost = HeatingSum;
+
+            infoModel.HotWater = WaterHeatingApartment;
+            infoModel.HotWaterCost = WaterHeatingSum;
+
+            infoModel.HotWaterLoss = heatingLossCost;
+            infoModel.HotWaterLossCost = WaterHeatingLossSum;
+
+            infoModel.ColdWater = ColdWaterUsed;
+            infoModel.ColdWaterCost = ColdWaterUsedSum;
+
+            decimal coldWaterLossPerApartment = Decimal.Divide(coldWaterLoss, 14);
+
+            infoModel.ColdWaterLoss = Math.Round(coldWaterLossPerApartment, 4);
+            infoModel.ColdWaterLossCost = ColdWaterLossSum;
+
+            infoModel.UpkeepCost = upkeepCost;
+
+            infoModel.WasteCost = waste;
+            infoModel.Upkeep = upkeepAmount;
+            infoModel.UpkeepCost = upkeepCost;
+            infoModel.Tax = tax;
+
+            infoLine.infoLine = infoModel;
+            infoLine.receipt = receipt;
+
+            return infoLine;
         }
 
     }
