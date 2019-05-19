@@ -12,11 +12,11 @@ namespace indranu7.buisinessLogic
         public string getMonthName()
         {
             var today = DateTime.Now;
-            var  monthId = today.AddMonths(-1).Month;
+            var monthId = today.AddMonths(-1).Month;
             switch (monthId)
             {
                 case 1:
-                   return "Januvāris";
+                    return "Januvāris";
                 case 2:
                     return "Februāris";
                 case 3:
@@ -39,7 +39,7 @@ namespace indranu7.buisinessLogic
                     return "Novembris";
                 default:
                     return "Decembirs";
-                  
+
             }
         }
 
@@ -78,13 +78,13 @@ namespace indranu7.buisinessLogic
             return defaulValue;
         }
 
-        public FieldModel[] createPerson(string Name, string Surname,  string ID, string Address, string Type = "Payer")
+        public FieldModel[] createPerson(string Name, string Surname, string ID, string Address, string Type = "Payer")
         {
             var person = new FieldModel[4];
-            person[0] = createField("Vārds", "", Type+"Name", Name, "text");
-            person[1] = createField("Uzvārds", "", Type+"Surname", Surname, "text");
-            person[2] = createField("Personas kods", "", Type+"ID", ID, "text");
-            person[3] = createField("Dzīves vieta", "", Type+"Address", Address, "text");
+            person[0] = createField("Vārds", "", Type + "Name", Name, "text");
+            person[1] = createField("Uzvārds", "", Type + "Surname", Surname, "text");
+            person[2] = createField("Personas kods", "", Type + "ID", ID, "text");
+            person[3] = createField("Dzīves vieta", "", Type + "Address", Address, "text");
 
             return person;
         }
@@ -92,7 +92,7 @@ namespace indranu7.buisinessLogic
 
         public FieldModel createField(string Label, string Unit, string Name, string Value = "", string Type = "number")
         {
-            if (Value == String.Empty) Value = "123"; 
+            //if (Value == String.Empty) Value = "123"; 
 
             var newField = new FieldModel();
             newField.Label = Label;
@@ -104,7 +104,7 @@ namespace indranu7.buisinessLogic
             return newField;
         }
 
-        public CostFieldModel createCostField(string Label, string AmountUnit, string Name, decimal ValueAmount = 0.00M , decimal CostValue = 0.00M)
+        public CostFieldModel createCostField(string Label, string AmountUnit, string Name, decimal ValueAmount = 0.00M, decimal CostValue = 0.00M)
         {
             var newCostField = new CostFieldModel();
             string costLabel = "Maksa";
@@ -117,7 +117,7 @@ namespace indranu7.buisinessLogic
             return newCostField;
         }
 
-        public AssetModel createTenantFormField(string ApartmentNo, decimal TenantCount, decimal Discount = 0.00M, string AdditonalInformation = "",  decimal Dept = 0.00M)
+        public AssetModel createTenantFormField(string ApartmentNo, decimal TenantCount, decimal Discount = 0.00M, string AdditonalInformation = "", decimal Dept = 0.00M)
         {
             var newTenant = new AssetModel();
             var fields = new FieldModel[3];
@@ -160,7 +160,7 @@ namespace indranu7.buisinessLogic
         }
 
         private string getOneText(char value)
-        { 
+        {
             switch (value)
             {
                 case '1':
@@ -231,7 +231,7 @@ namespace indranu7.buisinessLogic
                 var ones = getOneText(bigSum[2]);
                 text = hundred + " " + tens + " " + ones;
             }
-            else if( bigSum.Length == 2)
+            else if (bigSum.Length == 2)
             {
                 var tens = getTenText(bigSum[0]);
                 var ones = getOneText(bigSum[1]);
@@ -257,16 +257,168 @@ namespace indranu7.buisinessLogic
             if (smallSum[1] == '1') end = "s";
             if (bigSum.Length != 0)
             {
-               text = getBigSumText(bigSum.ToArray());
+                text = getBigSumText(bigSum.ToArray());
             }
 
             if (text != string.Empty)
             {
                 string firstUpper = text[0].ToString().ToUpper();
-                newText = firstUpper + text.Substring(1, text.Length-1);
-                
+                newText = firstUpper + text.Substring(1, text.Length - 1);
+
             }
             return newText + " un " + smallSum + " cent" + end;
+        }
+
+        public FieldModel[] GetTenantInformation(int apartmentId)
+        {
+            switch (apartmentId)
+            {
+                case 1:
+                    return createPerson("Dāvis", "Sīmanis", "21080-10909", "Indrānu iela 7-1");
+                case 2:
+                    return createPerson("Anastasija", "Geca", "", "Indrānu iela 7-2");
+                case 3:
+                    return createPerson("Anda", "Masējeva", "221057-10103", "Indrānu iela 7-3");
+                case 4:
+                    return createPerson("Valentīna", "Kuščenko", "070152-10118", "Indrānu iela 7-4");
+                case 5:
+                    return createPerson("Gatis", "Ķīsis", "301171-10615", "Indrānu iela 7-5");
+                case 6:
+                    return createPerson("Juris", "Krežis", "170439-10102", "Indrānu iela 7-6");
+                case 7:
+                    return createPerson("Jeļena", "Baševska", "", "Indrānu iela 7-7");
+                case 8:
+                    return createPerson("Ance", "Purmale", "", "Indrānu iela 7-8");
+                case 9:
+                    return createPerson("Andis", "Jargans", "", "Indrānu iela 7-9");
+                case 10:
+                    return createPerson("Lelde", "Sebre", "060171-11209", "Indrānu iela 7-10");
+                case 11:
+                    return createPerson("Salvis", "Skopāns", "", "Indrānu iela 7-11");
+                case 12:
+                    return createPerson("Ivo", "Lorencs", "", "Indrānu iela 7-12");
+                case 14:
+                    return createPerson("Kārlis", "Dombrovskis", "260168-11293", "Indrānu iela 7-14");
+                case 15:
+                    return createPerson("Katrīna", "Bičevska", "220198-10706", "Indrānu iela 7-15");
+                default:
+                    return createPerson("Inese", "Silamiķele", "220263-10101", "Selges Iela 14");
+            }
+        }
+
+        public decimal GetApartmentArea(int apartmentId)
+        {
+            switch (apartmentId)
+            {
+                case 1:
+                    return 54.16M;
+                case 2:
+                    return 30.48M;
+                case 3:
+                    return 35.17M;
+                case 4:
+                    return 57.07M;
+                case 5:
+                    return 54.33M;
+                case 6:
+                    return 58.39M;
+                case 7:
+                    return 72.28M;
+                case 8:
+                    return 54.8M;
+                case 9:
+                    return 58.01M;
+                case 10:
+                    return 71.86M;
+                case 11:
+                    return 49.4M;
+                case 12:
+                    return 55.15M;
+                case 14:
+                    return 53.34M;
+                case 15:
+                    return 49.79M;
+                default:
+                    return 0;
+            }
+        }
+
+        public int GetDefaultTenantCount(int apartmentId)
+        {
+            switch (apartmentId)
+            {
+                case 1:
+                    return 1;
+                case 2:
+                    return 1;
+                case 3:
+                    return 1;
+                case 4:
+                    return 2;
+                case 5:
+                    return 2;
+                case 6:
+                    return 2;
+                case 7:
+                    return 2;
+                case 8:
+                    return 3;
+                case 9:
+                    return 3;
+                case 10:
+                    return 2;
+                case 11:
+                    return 3;
+                case 12:
+                    return 1;
+                case 14:
+                    return 2;
+                case 15:
+                    return 1;
+                default:
+                    return 0;
+            }
+        }
+
+        public decimal GetRent(int apartmentId)
+        {
+            switch (apartmentId)
+            {
+                case 1:
+                    return 77;
+                case 2:
+                    return 90;
+                case 3:
+                    return 50;
+                case 4:
+                    return 150;
+                case 5:
+                    return 150;
+                case 6:
+                    return 10;
+                case 7:
+                    return 200;
+                case 8:
+                    return 77.82M;
+                case 10:
+                    return 102;
+                case 11:
+                    return 200;
+                case 12:
+                    return 190;
+                case 14:
+                    return 75.74M;
+                default:
+                    return 0;
+            }
+        }
+
+        public decimal GetParking(int apartmentId)
+        {
+            if (apartmentId == 1 || apartmentId == 7 || apartmentId == 10 || apartmentId == 1 || apartmentId == 2)
+                return 25;
+
+            return 0;
         }
     }
 }

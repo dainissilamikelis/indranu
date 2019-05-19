@@ -31,26 +31,5 @@ namespace indranu7.Controllers
         {
             return formatMetadata.GetReceipts(inputFields);
         }
-
-        [HttpPost]
-        [ActionName("getPDF")]
-        public IActionResult GetPDFs([FromBody] ReceiptModel[] receipts)
-        {
-            var pdf = new pdfCreator();
-            var doc = pdf.createPDF(receipts);
-            var stream = new FileStream("C:\\Users\\dsilamikelis\\Desktop\\test\\test.pdf", FileMode.Open);
-            return new FileStreamResult(stream, "application/pdf");
-        }
-
-        [HttpPost]
-        [ActionName("RecalculateReceipt")]
-        public IActionResult Recalculate([FromBody] ReceiptModel[] receipts, string id)
-        {
-            var pdf = new pdfCreator();
-            var doc = pdf.createPDF(receipts);
-            var stream = new FileStream("C:\\Users\\dsilamikelis\\Desktop\\test\\test.pdf", FileMode.Open);
-            return new FileStreamResult(stream, "application/pdf");
-        }
-
     }
 }

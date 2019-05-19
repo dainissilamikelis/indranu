@@ -13,7 +13,8 @@ export function formatReceiptForm(receiptForm) {
 }
 
 function getFieldValue(field) {
-  return field.ref.current.props.value;
+  if (field.ref) return field.ref.current.props.value;
+  return null;
 }
 
 export function getApartmentFieldValues(apartments) {
@@ -73,7 +74,6 @@ export function formatReceipts(receipts) {
       refMaker(receiver);
       refMaker(additionalInformation);
       refMaker(closingInformation);
-      refMaker(fields);
       costFieldRefMaker(costFields);
       newReceipts.push(receiptForm);
     }

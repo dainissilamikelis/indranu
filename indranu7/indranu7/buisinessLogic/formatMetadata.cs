@@ -23,8 +23,9 @@ namespace indranu7.buisinessLogic
             var apartmentFields = new AssetModel[14];
             var utils = new utils();
 
- 
+
             receiptFields[0] = utils.createField("Mēnesis", "2019", "Month", utils.getMonthName(), "text");
+
             receiptFields[1] = utils.createField("Elektroenerģija", "kWh", "EletricityAmount");
             receiptFields[2] = utils.createField("Elektrības maksa", "EUR", "EletricityCost");
             receiptFields[3] = utils.createField("Aukstais ūdens", "m3", "ColdWaterAmount");
@@ -63,21 +64,23 @@ namespace indranu7.buisinessLogic
             var receipts = new ReceiptModel[16];
             var utils = new utils();
             var tarifs = calculations.GetTarifs(inputFields.FormFields);
+
             for (int i = 0; i < 14; i++)
             {
-                string apartmentNo = (i + 1).ToString();
-                if (i == 12) apartmentNo = "14";
-                if (i == 13) apartmentNo = "15";
-                
+
+                int apartmentNo = (i + 1);
+                if (i == 12) apartmentNo = 14;
+                if (i == 13) apartmentNo = 15;
+
                 var newReceipt = new ReceiptModel();
                 var receiver = utils.createPerson("Inese", "Silamiķele", "220263-10101", "Selgas iela 14-1", "Receiver");
-                var payer = utils.createPerson("TEST" + apartmentNo, "testing", "test-test", "Test 12");
+                var payer = utils.GetTenantInformation(apartmentNo);
                 newReceipt.Label = apartmentNo + ". Dzīvoklis";
-                newReceipt.Id = String.Format("Nr. {0}-{1}-{2}-{3}", utils.getYear(), utils.getMonthName(), apartmentNo, tarifs["Version"]); 
+                newReceipt.Id = String.Format("Nr. {0}-{1}-{2}-{3}", utils.getYear(), utils.getMonthName(), apartmentNo, tarifs["Version"]);
                 newReceipt.Receiver = receiver;
                 newReceipt.Payer = payer;
                 newReceipt.Value = i;
-                newReceipt.Receipt = calculations.GetReceipt(tarifs, 54.16M, 1.0M);
+                newReceipt.Receipt = calculations.GetReceipt(tarifs, apartmentNo);
                 receipts[i] = newReceipt;
             }
 

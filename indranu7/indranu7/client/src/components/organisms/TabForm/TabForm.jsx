@@ -5,7 +5,7 @@ import Tab from "@material-ui/core/Tab";
 import Receipt from "../Receipt/Receipt";
 import { Button } from "@material-ui/core";
 import Loader from "../../atoms/Loader/Loader";
-import './TabForm.scss';
+import "./TabForm.scss";
 
 class TabForm extends React.Component {
   state = {
@@ -21,18 +21,18 @@ class TabForm extends React.Component {
   componentDidMount = () => {
     const { receipts } = this.props;
     const { value } = receipts[0];
-    this.setState({ value })
-  }
+    this.setState({ value });
+  };
 
   handleGetPDF = () => {
     window.print();
-  }
+  };
 
   render() {
     const { value, loading } = this.state;
     const { receipts } = this.props;
 
-    if (loading) return <Loader />
+    if (loading) return <Loader />;
 
     return (
       <div>
@@ -55,12 +55,12 @@ class TabForm extends React.Component {
           </Tabs>
         </AppBar>
         {receipts.map(receipt => (
-          <div className="receipts-grid">
+          <div key={receipt.value} className="receipts-grid">
             <div className="receipt-part receipt-1">
-              <Receipt key={receipt.value} receipt={receipt} current={value} />
+              <Receipt receipt={receipt} current={value} />
             </div>
             <div className="receipt-part">
-              <Receipt key={receipt.value} receipt={receipt} current={value} />
+              <Receipt receipt={receipt} current={value} />
             </div>
           </div>
         ))}

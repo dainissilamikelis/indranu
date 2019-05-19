@@ -15,17 +15,21 @@ const Receipt = ({ receipt, current }) => {
     <div
       className="receipt-table"
       hidden={evaluateVisibility(current, receipt.value)}
-    > 
-    <div className="PersonArea"> 
-      <div className="person">     
-        <h5> Maksājuma saņēmējs </h5>
-        <Table fields={receiver} />
-      </div> 
-      <div className="person">
-        <h5> Maksātājs </h5>
-        <Table fields={payer} /> </div>
+    >
+      {receipt.id}
+      <div className="PersonArea">
+        <div className="person">
+          <h5> Maksājuma saņēmējs </h5>
+          <Table fields={receiver} />
+        </div>
+        <div className="person">
+          <h5> Maksātājs </h5>
+          <Table fields={payer} />
+        </div>
       </div>
       <ReceiptBody receipt={newReceipt} />
+      ___________________________________ Paraksts
+      ___________________________________ Paraksts
     </div>
   );
 };
