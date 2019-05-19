@@ -1,43 +1,25 @@
 .costFields {
-  padding: 0px;
-  width: 90%;
-  margin: 20px;
+  max-width: 145mm;
+  min-width: 145mm;
+  margin-bottom: 2mm;
   th {
-    min-width: 200px;
-    max-width: 200px;
+    min-width: 40mm;
+    max-width: 40mm;
   }
   td {
-    min-width: 60px;
-  }
-}
-
-.additionalInformation {
-  padding: 0px;
-  width: 90%;
-  margin: 20px;
-  table {
-    th {
-      min-width: 200px;
-      max-width: 200px;
-    }
-    td {
-      width: 50%;
-    }
+    min-width: 40mm;
   }
 }
 
 .closingInformation {
-  padding: 0px;
-  width: 90%;
-  margin: 20px;
-  table {
-    th {
-      min-width: 200px;
-      max-width: 200px;
-    }
-    td {
-      width: 50%;
-      font-weight: bold;
-    }
+  max-width: 100mm;
+  min-width: 100mm;
+  th {
+    min-width: 40mm;
+    max-width: 40mm;
+  }
+  td {
+    min-width: 85mm;
+    max-width: 85mm;
   }
 }

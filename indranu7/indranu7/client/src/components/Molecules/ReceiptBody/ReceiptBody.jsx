@@ -17,7 +17,7 @@ const ReceiptBody = ({ receipt }) => {
       <div className="closingInformation">
         <Table fields={closingInformation} />
       </div>
-      <div className="additionalInformation">
+      <div className="closingInformation">
         <h5> Papildinformācija </h5>
         <Table fields={additionalInformation} />
       </div>

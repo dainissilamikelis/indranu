@@ -78,6 +78,17 @@ namespace indranu7.buisinessLogic
             return defaulValue;
         }
 
+        public FieldModel[] createSignatures(string payerName, string payerSurname)
+        {
+            var signatures = new FieldModel[4];
+            signatures[0] = createField("Saņēmēja paraksts", "", "ReceiverSignature", "" ,"text");
+            signatures[1] = createField("Atšifrējums", "", "ReceiverSignatureMeaning", "Inese Silamiķele", "text");
+            signatures[2] = createField("Saņēmēja paraksts", "", "PayerSignature", "", "text");
+            signatures[3] = createField("Atšifrējums", "", "PayerSignatureMeaning", payerName + payerSurname, "text");
+
+            return signatures;
+        }
+
         public FieldModel[] createPerson(string Name, string Surname, string ID, string Address, string Type = "Payer")
         {
             var person = new FieldModel[4];

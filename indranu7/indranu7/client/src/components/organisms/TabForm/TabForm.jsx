@@ -5,12 +5,14 @@ import Tab from "@material-ui/core/Tab";
 import Receipt from "../Receipt/Receipt";
 import { Button } from "@material-ui/core";
 import Loader from "../../atoms/Loader/Loader";
+import createPDF from "../../../utils/pdfMaker";
 import "./TabForm.scss";
 
 class TabForm extends React.Component {
   state = {
     value: 0,
-    loading: false
+    loading: false,
+    printRef: null,
   };
 
   handleChange = (event, value) => {
@@ -21,15 +23,25 @@ class TabForm extends React.Component {
   componentDidMount = () => {
     const { receipts } = this.props;
     const { value } = receipts[0];
-    this.setState({ value });
+    const printRef = React.createRef();
+    this.setState({ value, printRef });
   };
 
   handleGetPDF = () => {
-    window.print();
-  };
+    const { printRef } = this.state;
+    createPDF(printRef);
+    // var prtContent = document.getElementById("receipt");
+    // var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+    // WinPrint.document.write(prtContent.innerHTML);
+    // WinPrint.document.close();
+    // WinPrint.focus();
+    // WinPrint.print();
+    // WinPrint.close();
 
+
+  }
   render() {
-    const { value, loading } = this.state;
+    const { value, loading ,printRef } = this.state;
     const { receipts } = this.props;
 
     if (loading) return <Loader />;
@@ -55,11 +67,11 @@ class TabForm extends React.Component {
           </Tabs>
         </AppBar>
         {receipts.map(receipt => (
-          <div key={receipt.value} className="receipts-grid">
+          <div ref={printRef} id="receipt" key={receipt.value} className="receipts-grid">
             <div className="receipt-part receipt-1">
               <Receipt receipt={receipt} current={value} />
             </div>
-            <div className="receipt-part">
+            <div className="receipt-part  receipt-2">
               <Receipt receipt={receipt} current={value} />
             </div>
           </div>

@@ -13,5 +13,6 @@ namespace indranu7.models
         public AmountCostForm Receipt { get; set; }
         public FieldModel[] Payer { get; set; }
         public FieldModel[] Receiver { get; set; }
+        public FieldModel[] Signatures { get; set; }
     }
 }

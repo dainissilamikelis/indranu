@@ -10,7 +10,6 @@ function evaluateVisibility(current, value) {
 
 const Receipt = ({ receipt, current }) => {
   const { payer, receiver, receipt: newReceipt } = receipt;
-  console.log(receipt);
   return (
     <div
       className="receipt-table"
@@ -28,8 +27,13 @@ const Receipt = ({ receipt, current }) => {
         </div>
       </div>
       <ReceiptBody receipt={newReceipt} />
-      ___________________________________ Paraksts
-      ___________________________________ Paraksts
+
+      <div>
+        Saņēmēja paraksts ____________________________, Atšifrējums Inese Silamiķele
+      </div>
+            <div>
+        Maksatāja paraksts ____________________________, Atšifrējums ________________
+      </div>
     </div>
   );
 };

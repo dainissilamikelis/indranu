@@ -10,8 +10,9 @@
 .person {
   padding: 0px;
   float:left;
-  width: 400px;
-  margin: 20px;
+  max-width: 10cm;
+  min-width: 10cm;
+  margin: 10px;
   td {
     width: 50%;
   }

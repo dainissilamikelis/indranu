@@ -25,16 +25,15 @@ namespace indranu7.buisinessLogic
 
 
             receiptFields[0] = utils.createField("Mēnesis", "2019", "Month", utils.getMonthName(), "text");
-
-            receiptFields[1] = utils.createField("Elektroenerģija", "kWh", "EletricityAmount");
-            receiptFields[2] = utils.createField("Elektrības maksa", "EUR", "EletricityCost");
-            receiptFields[3] = utils.createField("Aukstais ūdens", "m3", "ColdWaterAmount");
-            receiptFields[4] = utils.createField("Aukstā ūdens maksa", "EUR", "ColdWaterCost");
-            receiptFields[5] = utils.createField("Apkure", "MWh", "HeatAmount");
-            receiptFields[6] = utils.createField("Apkures maksa", "EUR", "HeatCost");
-            receiptFields[7] = utils.createField("Siltais ūdens", "m3", "HotWaterAmount");
-            receiptFields[8] = utils.createField("Atkritumu izmaksa", "EUR", "WasteCost");
-            receiptFields[9] = utils.createField("Nodoklis", "Eur", "TaxCost");
+            receiptFields[1] = utils.createField("Elektroenerģija", "kWh", "EletricityAmount", "347");
+            receiptFields[2] = utils.createField("Elektrības maksa", "EUR", "EletricityCost", "45.53");
+            receiptFields[3] = utils.createField("Aukstais ūdens", "m3", "ColdWaterAmount", "100");
+            receiptFields[4] = utils.createField("Aukstā ūdens maksa", "EUR", "ColdWaterCost", "192.41");
+            receiptFields[5] = utils.createField("Apkure", "MWh", "HeatAmount", "22.21");
+            receiptFields[6] = utils.createField("Apkures maksa", "EUR", "HeatCost", "1104.21");
+            receiptFields[7] = utils.createField("Siltais ūdens", "m3", "HotWaterAmount", "46");
+            receiptFields[8] = utils.createField("Atkritumu izmaksa", "EUR", "WasteCost", "58.31");
+            receiptFields[9] = utils.createField("Nodoklis", "Eur", "TaxCost", "202.77" );
             receiptFields[10] = utils.createField("Papildinformācija", "", "ExtraInfo", "", "text");
             receiptFields[11] = utils.createField("Versija", "", "Revision", "A", "text");
 

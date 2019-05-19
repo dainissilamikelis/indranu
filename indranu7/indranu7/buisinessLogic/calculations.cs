@@ -69,11 +69,8 @@ namespace indranu7.buisinessLogic
             decimal WaterHeatingEnergyAmount = GetWaterHeatingEnergy_TOTAL(fieldMap["HotWaterAmount"], WaterHeating);
             decimal TotalHeatingEneryUsed = GetHeatingEnergy_TOTAL(fieldMap["HeatAmount"], WaterHeatingEnergyAmount, HeatingEnergyLoss);
 
-
             decimal HeatTarif = utils.GetTarif(fieldMap["HeatCost"], fieldMap["HeatAmount"]);
             decimal WaterTarif = utils.GetTarif(fieldMap["ColdWaterCost"], fieldMap["ColdWaterAmount"]);
-
-
 
             // based on apartment count
             decimal WaterLossPerAppartmentTarif = utils.GetTarif(ColdWaterLoss, apparmentCount);
@@ -129,7 +126,8 @@ namespace indranu7.buisinessLogic
             var receipt = new AmountCostForm();
             var receiptCostFields = new CostFieldModel[14];
             var additionalInformation = new FieldModel[2];
-            var endInformation = new FieldModel[6];
+            var endInformation = new FieldModel[2];
+            var signatureInformation = new FieldModel[4];
 
             decimal coldWaterTarif = tarifs["ColdWater"];
             decimal waterLossTarif = Math.Round(tarifs["WaterLoss"], 2);
@@ -157,8 +155,6 @@ namespace indranu7.buisinessLogic
             decimal WaterHeatingLossSum = utils.roundMultiply(heatingLossCost, heatTarif);
             decimal HeatingSum = utils.roundMultiply(Heating, heatTarif);
 
-
-
             decimal utilitiesSum = ColdWaterUsedSum + ColdWaterLossSum + WaterHeatingSum + WaterHeatingLossSum + HeatingSum + upkeepCost;
             decimal apartmentSum = tax + parking + rent + 0.00M;
             decimal sum = utilitiesSum + apartmentSum;
@@ -184,16 +180,9 @@ namespace indranu7.buisinessLogic
             endInformation[0] = utils.createField("Kopsumma", "EUR", "Sum", sum.ToString());
             endInformation[1] = utils.createField("Kopsumma vārdos", "", "TextSum", utils.createTextSum(sum.ToString()), "text");
 
-            endInformation[2] = utils.createField("Maksātāja paraksts", "", "PayerSignature");
-            endInformation[3] = utils.createField("Atšifrējusms", "", "PayerSignatureMeaning");
-
-            endInformation[2] = utils.createField("Saņēmēja paraksts", "", "ReceiverSignature");
-            endInformation[3] = utils.createField("Atšifrējusms", "", "ReceiverSignatureMeaning");
-
             receipt.CostFields = receiptCostFields;
             receipt.AdditionalInformation = additionalInformation;
             receipt.ClosingInformation = endInformation;
-
 
             return receipt;
         }
