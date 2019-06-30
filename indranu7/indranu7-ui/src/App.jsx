@@ -7,6 +7,7 @@ import {
 import './App.css';
 import AppBar from './components/organisms/AppBar';
 import Receipt from './components/pages/Receipt';
+import TEST from './components/pages/test';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <div className="page">
           <Switch>
             <Route path="/createReceipt" component={Receipt} />
+            <Route path="/test" component={TEST} />
           </Switch>
         </div>
       </div>

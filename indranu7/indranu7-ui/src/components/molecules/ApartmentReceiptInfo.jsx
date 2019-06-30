@@ -12,7 +12,9 @@ const styles = {
   maxWidth: "500px",
   border: "solid",
   borderColor: 'black',
+  borderWidth: 'thin',
   padding: "10px",
+  margin: '0px 10px 20px 10px',
 };
 
 const headerStyles = {
@@ -28,36 +30,45 @@ const ApartmentReceiptInfo = ({
   debtInfo,
   extraInfo,
   onChange,
+  index,
 }) => (
-    <div style={{ ...styles }}>
-      <h3 style={{ ...headerStyles }}>
+    <div style={styles}>
+      <h3 style={headerStyles}>
         {`Dz. ${apartmentNo}`}
       </h3>
-      <div style={{ ...groupStyle }}>
+      <div style={groupStyle}>
         <FormField
+          id={`apartments[${index}].tenantAmount`}
           style={type.small}
           label="Starpība"
           onChange={onChange}
           value={tenantAmount}
+          type="number"
         />
         <FormField
+          id={`apartments[${index}].goneDays`}
           style={type.small}
           label="Dienas"
           onChange={onChange}
           value={goneDays}
+          type="number"
         />
         <FormField
+          id={`apartments[${index}].debt`}
           style={type.small}
           label="Parāds"
           onChange={onChange}
           value={debt}
+          type="number"
         />
         <FormField
+          id={`apartments[${index}].debtInfo`}
           label="Informācija"
           onChange={onChange}
           value={debtInfo}
         />
         <FormField
+          id={`apartments[${index}].extraInfo`}
           label="Papildus Informācija"
           onChange={onChange}
           value={extraInfo}
@@ -68,7 +79,7 @@ const ApartmentReceiptInfo = ({
 
 ApartmentReceiptInfo.propTypes = {
   onChange: PropTypes.func.isRequired,
-  apartmentNo: PropTypes.string.isRequired,
+  apartmentNo: PropTypes.number.isRequired,
   tenantAmount: PropTypes.number,
   goneDays: PropTypes.number,
   debt: PropTypes.number,

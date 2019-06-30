@@ -18,8 +18,10 @@ const AppBar = () => (
         to={"createReceipt"}
         text="Veidot rēķinu"
       />
-      <Button text="Home" />
-      <Button text="Files" />
+      <Link
+        to={"test"}
+        text="test"
+      />
     </NavbarGroup>
   </Navbar>)
 

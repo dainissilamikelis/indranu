@@ -10,6 +10,10 @@ export const styles = {
     maxWidth: '50px',
     marginLeft: '5px',
   },
+  dual: {
+    maxWidth: '120px',
+    marginLeft: '5px',
+  },
   medium: {
     maxWidth: '150px',
     marginLeft: '5px',
@@ -24,26 +28,20 @@ export const styles = {
 }
 
 const FormField = ({
-  helperText,
   label,
   id,
-  labelInfo,
-  placehHolder,
   onChange,
   value,
   style,
 }) => (
     <div style={style}>
       <FormGroup
-        helperText={helperText}
         label={label}
         labelFor={id}
-        labelInfo={labelInfo}
       >
         <InputGroup
           id={id}
-          placeholder={placehHolder}
-          onChange={onChange}
+          onChange={(e) => onChange(id, e.target.value)}
           value={value}
         />
       </FormGroup>
@@ -51,13 +49,10 @@ const FormField = ({
   );
 
 FormField.propTypes = {
-  helperText: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  labelInfo: PropTypes.string.isRequired,
-  placehHolder: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.any.isRequired,
 }
 
 FormField.defaultProps = {
